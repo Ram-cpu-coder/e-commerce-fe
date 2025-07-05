@@ -13,7 +13,7 @@ import BreadCrumbsAdmin from "../../components/breadCrumbs/BreadCrumbsAdmin";
 const AdminOrders = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(setMenu("Orders List"), []);
+    dispatch(setMenu("Orders"), []);
   });
   const { orders, orderAdminPage } = useSelector((state) => state.orderInfo);
   const { user } = useSelector((state) => state.userInfo);
@@ -24,8 +24,9 @@ const AdminOrders = () => {
     };
     fetchOrders();
   }, [dispatch, orderAdminPage]);
+
   return (
-    <UserLayout pageTitle="Orders List">
+    <UserLayout pageTitle="Orders">
       <BreadCrumbsAdmin />
       <AdminOrdersCard orders={orders} user={user} />
       <div className="mt-2 d-flex justify-content-center w-100">

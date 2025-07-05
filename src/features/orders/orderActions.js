@@ -59,11 +59,3 @@ export const deleteOrderItemAction = (_id, ID) => async (dispatch) => {
     }
     toast[status](message);
 }
-
-
-
-//  these things need to be done in BE
-// 1. I need to add the email servers in each of these actions.
-//  - updated the orders
-//  - cancelled the orders
-//  - cancelled the particular order 
