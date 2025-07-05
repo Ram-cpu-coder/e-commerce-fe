@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { FaEdit } from "react-icons/fa";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { getActiveProductAction } from "../../features/products/productActions";
 
 const FeatureBannerCard = ({ item }) => {
   const {

@@ -5,7 +5,7 @@ import HomePage from "../pages/home/HomePage";
 import { useDispatch } from "react-redux";
 import { getPublicProductAction } from "../features/products/productActions.js";
 import { fetchUserAction } from "../features/user/userAction.js";
-import FeatureBanner from "../pages/featureBanner/featureBanner.jsx";
+import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
