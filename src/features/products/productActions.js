@@ -58,7 +58,7 @@ export const getActiveProductAction = () => async (dispatch) => {
     pending: "Loading..."
   })
   const { status, message, products } = await pending;
-  console.log(products)
+
   if (status === "success") {
     dispatch(setAllActiveProducts(products))
   }

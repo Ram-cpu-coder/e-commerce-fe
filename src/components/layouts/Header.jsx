@@ -60,6 +60,13 @@ const Header = ({ handleCart, setNavHeight }) => {
         >
           DEV STYLE
         </Navbar.Brand>
+        <div id="navbar-search-mobile" className="d-block d-md-none">
+          <Nav className="ms-auto border">
+            <a href="/search" className="px-3 nav-link ">
+              SEARCH
+            </a>
+          </Nav>
+        </div>
 
         {/* Toggle button (for mobile) */}
         <Navbar.Toggle
@@ -93,6 +100,7 @@ const Header = ({ handleCart, setNavHeight }) => {
             </button>
           </Nav>
         </Navbar.Collapse>
+
         <BottomNavBar handleCart={handleCart} user={user} />
       </Container>
     </Navbar>

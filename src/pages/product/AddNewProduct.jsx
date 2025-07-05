@@ -8,11 +8,11 @@ import useForm from "../../hooks/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createProductAction,
-  getAdminProductAction,
   getPublicProductAction,
 } from "../../features/products/productActions";
 import { MdDelete } from "react-icons/md";
 import BreadCrumbsAdmin from "../../components/breadCrumbs/BreadCrumbsAdmin";
+import { setSelectedCategory } from "../../features/category/categorySlice";
 const initialState = {};
 
 const AddNewProduct = () => {
@@ -152,7 +152,7 @@ const AddNewProduct = () => {
             <>
               <div className="d-flex flex-wrap gap-2 mb-3">
                 {previews.map((src, index) => (
-                  <div className="d-flex  flex-column position-relative ">
+                  <div className="d-flex flex-column position-relative ">
                     <MdDelete
                       onClick={() => handleOnImageDelete(index)}
                       className="cursor-pointer text-danger position-absolute end-0 "

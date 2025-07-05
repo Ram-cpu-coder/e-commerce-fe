@@ -5,6 +5,7 @@ import HomePage from "../pages/home/HomePage";
 import { useDispatch } from "react-redux";
 import { getPublicProductAction } from "../features/products/productActions.js";
 import { fetchUserAction } from "../features/user/userAction.js";
+import FeatureBanner from "../pages/featureBanner/featureBanner.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -91,6 +92,7 @@ const AppRoutes = () => {
         <Route path="categories/:_id" element={<EditCategory />} />
         <Route path="categories/new" element={<AddCategory />} />
         <Route path="orders" element={<AdminOrders />} />
+        <Route path="banner" element={<FeatureBanner />} />
         <Route path="reviews" element={<AdminReview />} />
       </Route>
     </Routes>

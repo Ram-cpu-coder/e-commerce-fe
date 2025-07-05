@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { setSelectedCategory } from "../../features/category/categorySlice";
 import { CgProfile } from "react-icons/cg";
 import { PiSignOutFill } from "react-icons/pi";
+import { HiBookmark } from "react-icons/hi";
 
 const sidebarLinks = [
   {
@@ -28,8 +29,14 @@ const sidebarLinks = [
     isAdminOnly: true,
   },
   {
+    icon: <HiBookmark />,
+    title: "Banners",
+    to: "/admin/banner",
+    isAdminOnly: true,
+  },
+  {
     icon: <FaCheck />,
-    title: "Orders List",
+    title: "Orders",
     to: "/admin/orders?page=1",
     isAdminOnly: true,
   },

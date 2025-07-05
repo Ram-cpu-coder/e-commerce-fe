@@ -13,26 +13,23 @@ const BreadCrumbsAdmin = () => {
     "/admin/orders": "Orders",
     "/admin/reviews": "Reviews",
     "/user": "User",
+    "/admin/banner": "Banners",
     "/user/account": "Account",
   };
 
   const location = useLocation();
   const pathNames = location.pathname.split("/").filter((item) => item);
-  console.log(pathNames);
 
   let itemForBreadCrumbs = [];
 
   pathNames.map((value, index) => {
     const link = `/${pathNames.slice(0, index + 1).join("/")}`;
-    console.log(link);
     if (link === "/admin") return;
     if (link === "/user") return;
     const name = breadcrumbMap[link] || value;
-    console.log(name);
     itemForBreadCrumbs.push({ title: <a href={link}>{name}</a> });
   });
 
-  console.log(itemForBreadCrumbs, "Items");
   return <Breadcrumb items={itemForBreadCrumbs} className="pb-3" />;
 };
 
