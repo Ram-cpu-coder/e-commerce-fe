@@ -16,3 +16,10 @@ export const fetchFeatureBannerApi = () => {
         url: URL,
     })
 }
+export const deleteFeatureBannerApi = (id) => {
+    return apiProcessor({
+        method: "delete",
+        url: `${URL}/${id}`,
+        isPrivate: true
+    })
+}

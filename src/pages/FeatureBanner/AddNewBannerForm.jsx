@@ -30,9 +30,12 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
     const formData = new FormData();
 
     formData.append("promoType", form.promoType);
+    formData.append("title", form.title);
     formData.append("createdAt", form.from);
     formData.append("expiresAt", form.to);
-    formData.append("products", JSON.stringify(selectedProducts));
+    selectedProducts.forEach((item) => {
+      formData.append("products", item._id);
+    });
 
     if (featureBannerImagePreview) {
       formData.append("featureBannerImgUrl", featureBannerImageFile);
@@ -60,8 +63,8 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
 
   return (
     <Row
-      className="m-0 position-absolute bg-white w-100 d-flex flex-column"
-      style={{ height: "100%", top: "0" }}
+      className="position-absolute bg-white w-100 d-flex flex-column"
+      style={{ height: "100%", top: "0", left: "0" }}
     >
       <Col lg={11} md={8} className="mx-auto">
         <Form onSubmit={handleSubmit} className="d-flex flex-column p-5 w-75">
@@ -73,6 +76,19 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
             <Form.Group
               className="mb-3"
               style={{ marginInlineEnd: "auto", width: "40%" }}
+            >
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                onChange={handleOnChange}
+                required
+              />
+            </Form.Group>
+
+            <Form.Group
+              className="mb-3"
+              style={{ marginInlineStart: "auto", width: "40%" }}
             >
               <Form.Label>Promo Type</Form.Label>
               <Form.Select
