@@ -18,7 +18,7 @@ const AddedProductsSection = ({
         {selectedProducts.map((product) => (
           <span
             key={product._id}
-            className="badge bg-primary"
+            className="badge bg-dark d-flex align-items-center"
             style={{ maxHeight: "25px" }}
           >
             {product.name.length > 30

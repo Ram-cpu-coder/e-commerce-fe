@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -17,6 +17,8 @@ import {
   Thumbs,
   Autoplay,
 } from "swiper/modules";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 
 export default function CarouselHomePage() {
   const sampleCarouselImg = ["./1.jpg", "./2.jpeg", "./3.jpeg", "./4.jpeg"];
@@ -24,14 +26,28 @@ export default function CarouselHomePage() {
   const pagination = {
     clickable: true,
   };
+
+  const dispatch = useDispatch();
+  const { featureBanner } = useSelector((state) => state.featureBannerInfo);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      await dispatch(fetchFeatureBannerAction());
+    };
+    fetchBanners();
+  }, []);
+
+  if (!featureBanner || featureBanner.length === 0) return null;
+
   return (
     <>
       <Swiper
+        key={featureBanner.length}
         slidesPerView={1}
         spaceBetween={1}
         centeredSlides={true}
         autoplay={{
-          delay: 2500,
+          delay: 2000,
           disableOnInteraction: false,
         }}
         loop={true}
@@ -44,18 +60,15 @@ export default function CarouselHomePage() {
           "--swiper-pagination-color": "#fff",
         }}
       >
-        {sampleCarouselImg
-          ? sampleCarouselImg.map((item, index) => (
-              <SwiperSlide>
-                <img
-                  src={item}
-                  alt="Carousel"
-                  key={index}
-                  style={{ backgroundSize: "contain" }}
-                />
-              </SwiperSlide>
-            ))
-          : "Loading the images"}
+        {featureBanner?.map((item, index) => (
+          <SwiperSlide key={index}>
+            <img
+              src={item.featureBannerImgUrl}
+              alt="Carousel"
+              style={{ backgroundSize: "contain" }}
+            />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
