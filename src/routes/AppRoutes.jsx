@@ -42,6 +42,9 @@ const Logout = lazy(() => import("../pages/auth/Logout.jsx"));
 const Shop = lazy(() => import("../pages/shop/Shop.jsx"));
 const WishList = lazy(() => import("../pages/wishList/WishList.jsx"));
 const AdminReview = lazy(() => import("../pages/review/AdminReview.jsx"));
+const UpdateFeatureBanner = lazy(() =>
+  import("../pages/FeatureBanner/UpdateFeatureBanner.jsx")
+);
 
 const AppRoutes = () => {
   const dispatch = useDispatch();
@@ -94,6 +97,7 @@ const AppRoutes = () => {
         <Route path="orders" element={<AdminOrders />} />
         <Route path="banner" element={<FeatureBanner />} />
         <Route path="reviews" element={<AdminReview />} />
+        <Route path="banner/:id" element={<UpdateFeatureBanner />} />
       </Route>
     </Routes>
   );

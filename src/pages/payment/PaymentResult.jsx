@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { verifyPaymentSession } from "../../features/payment/PaymentAxios";
 import {
@@ -24,6 +24,8 @@ const PaymentResult = () => {
   const { user } = useSelector((state) => state.userInfo);
   const { cart } = useSelector((state) => state.cartInfo);
 
+  const hasVerified = useRef(false);
+
   const handleCheckoutAction = async () => {
     try {
       const data = await makePaymentAction();
@@ -34,6 +36,7 @@ const PaymentResult = () => {
       toast.error("Something went wrong during checkout");
     }
   };
+
   useEffect(() => {
     const verify = async () => {
       if (!sessionId) {
@@ -44,21 +47,30 @@ const PaymentResult = () => {
         return <p className="text-center mt-20">Loading user info...</p>;
       }
 
+      if (hasVerified.current) return;
+      hasVerified.current = true;
+
       const data = await verifyPaymentAction(sessionId, {
         shippingAddress: user.address,
         userId: user._id,
       });
+      console.log(data);
+      if (!data) {
+        setIsVerified(false);
+        setStatus("error");
+        console.log("error from the payment verification ");
+        return;
+      }
 
       setPlacedOrder(data?.order || {});
-      setIsVerified(data?.verified || false);
-      setStatus(data?.status || "error");
-
-      if (data.verified) {
+      setIsVerified(data?.verified);
+      setStatus(data?.status || "success");
+      if (data?.verified) {
         dispatch(deleteCartAction(cart._id));
       }
     };
     user && verify();
-  }, [sessionId, user]);
+  }, [user]);
 
   if (isVerified === null)
     return (
@@ -66,7 +78,7 @@ const PaymentResult = () => {
         Verifying payment...
       </p>
     );
-
+  console.log(isVerified);
   if (isVerified && isSuccessParam === "true") {
     return (
       <div

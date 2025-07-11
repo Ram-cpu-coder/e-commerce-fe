@@ -6,6 +6,7 @@ const AddedProductsSection = ({
   setShowProductModal,
   toggleProduct,
 }) => {
+  console.log(selectedProducts, 99);
   return (
     <div className="mb-4">
       <Button variant="secondary" onClick={() => setShowProductModal(true)}>

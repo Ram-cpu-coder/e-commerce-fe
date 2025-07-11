@@ -12,6 +12,7 @@ import AddNewBannerForm from "./AddNewBannerForm";
 import { getAllCategoriesAction } from "../../features/category/CategoryActions";
 import { getActiveProductAction } from "../../features/products/productActions";
 import { Col, Row } from "react-bootstrap";
+import useFeatureBannerForm from "../../hooks/useFeatureBannerForm";
 
 const FeatureBanner = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const FeatureBanner = () => {
     date: "newest",
   });
 
-  const [isCreatingBanner, setIsCreatingBanner] = useState(false);
+  const { setIsCreatingBanner, isCreatingBanner } = useFeatureBannerForm();
 
   useEffect(() => {
     dispatch(setMenu("Banners"));

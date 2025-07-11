@@ -14,8 +14,8 @@ const AddProductsInBanner = ({
   setShowProductModal,
   showProductModal,
   selectedProducts,
+  allActiveProducts,
 }) => {
-  const { allActiveProducts } = useSelector((state) => state.productInfo);
   const { Categories } = useSelector((state) => state.categoryInfo);
 
   const [categories, setCategories] = useState("");

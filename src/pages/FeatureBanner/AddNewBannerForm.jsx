@@ -14,16 +14,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { createFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 import AddProductsInBanner from "./AddProductsInBanner";
 import AddedProductsSection from "./AddedProductsSection";
+import useFeatureBannerForm from "../../hooks/useFeatureBannerForm";
 
 const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
-  const [featureBannerImageFile, setFeatureBannerImageFile] = useState(null);
-  const [featureBannerImagePreview, setFeatureBannerImagePreview] =
-    useState("");
-  const [showProductModal, setShowProductModal] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
   const dispatch = useDispatch();
-  const featureBannerImageRef = useRef(null);
+
+  const {
+    featureBannerImageFile,
+    featureBannerImagePreview,
+    featureBannerImageRef,
+    handleFeatureBannerImageChange,
+    toggleProduct,
+    clearImage,
+    setShowProductModal,
+    showProductModal,
+    selectedProducts,
+    setSelectedProducts,
+  } = useFeatureBannerForm();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -43,22 +50,6 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
 
     const response = await dispatch(createFeatureBannerAction(formData));
     if (response) setIsCreatingBanner(false);
-  };
-
-  const handleFeatureBannerImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setFeatureBannerImageFile(file);
-    setFeatureBannerImagePreview(URL.createObjectURL(file));
-  };
-
-  const toggleProduct = (product) => {
-    const exists = selectedProducts.find((p) => p._id === product._id);
-    if (exists) {
-      setSelectedProducts((prev) => prev.filter((p) => p._id !== product._id));
-    } else {
-      setSelectedProducts((prev) => [...prev, product]);
-    }
   };
 
   return (
@@ -148,11 +139,7 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
               <div className="d-flex flex-wrap gap-2 mb-3">
                 <div className="d-flex flex-column position-relative mt-2">
                   <MdDelete
-                    onClick={() => {
-                      setFeatureBannerImageFile(null);
-                      setFeatureBannerImagePreview("");
-                      featureBannerImageRef.current.value = "";
-                    }}
+                    onClick={clearImage}
                     className="position-absolute end-0 text-danger"
                     style={{ cursor: "pointer" }}
                   />
