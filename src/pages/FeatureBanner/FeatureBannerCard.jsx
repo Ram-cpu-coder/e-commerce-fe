@@ -17,6 +17,7 @@ const FeatureBannerCard = ({ item }) => {
   } = item;
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   return (
     <Card
       className="shadow-sm border-0 rounded-4"
@@ -74,16 +75,10 @@ const FeatureBannerCard = ({ item }) => {
 
         <div className="d-flex gap-2">
           <Link
-            to={`/admin/banner/products`}
+            to={`/admin/banner/listed-products/${_id}`}
             className="btn btn-outline-primary btn-sm w-100"
           >
             View Products
-          </Link>
-          <Link
-            to={`/admin/products/new`}
-            className="btn btn-outline-secondary btn-sm w-100"
-          >
-            + Add Product
           </Link>
         </div>
       </Card.Body>

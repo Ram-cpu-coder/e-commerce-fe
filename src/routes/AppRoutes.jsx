@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getPublicProductAction } from "../features/products/productActions.js";
 import { fetchUserAction } from "../features/user/userAction.js";
 import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
+import ViewProductsListed from "../pages/FeatureBanner/ViewProductsListed.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -98,6 +99,10 @@ const AppRoutes = () => {
         <Route path="banner" element={<FeatureBanner />} />
         <Route path="reviews" element={<AdminReview />} />
         <Route path="banner/:id" element={<UpdateFeatureBanner />} />
+        <Route
+          path="banner/listed-products/:_id"
+          element={<ViewProductsListed />}
+        />
       </Route>
     </Routes>
   );
