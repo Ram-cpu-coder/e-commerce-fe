@@ -5,14 +5,18 @@ import useFeatureBannerForm from "../../hooks/useFeatureBannerForm";
 import AddedProductsSection from "./AddedProductsSection";
 import AddProductsInBanner from "./AddProductsInBanner";
 import { UserLayout } from "../../components/layouts/UserLayout";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
-import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
+import {
+  fetchFeatureBannerAction,
+  updateFeatureBannerAction,
+} from "../../features/featureBanner/featureBannerAction";
 import useForm from "../../hooks/useForm";
 import { getActiveProductAction } from "../../features/products/productActions";
 
 const UpdateFeatureBanner = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { featureBanner } = useSelector((state) => state.featureBannerInfo);
   const { allActiveProducts } = useSelector((state) => state.productInfo);
@@ -29,7 +33,6 @@ const UpdateFeatureBanner = () => {
     showProductModal,
     selectedProducts,
     setSelectedProducts,
-    setIsCreatingBanner,
   } = useFeatureBannerForm();
 
   // finding the particular feature banner of the given id
@@ -44,7 +47,6 @@ const UpdateFeatureBanner = () => {
     const preExistingProductsAdded = allActiveProducts?.filter((item) =>
       selectedBanner?.products.includes(item._id)
     );
-    console.log(preExistingProductsAdded);
     if (selectedBanner?._id) {
       const { _id, createdAt, updatedAt, __v, ...cleaned } = selectedBanner;
       setForm({
@@ -57,10 +59,42 @@ const UpdateFeatureBanner = () => {
     }
   }, [selectedBanner]);
 
-  console.log(selectedBanner?.products, 99999999);
+  console.log(
+    JSON.stringify(
+      selectedProducts.map((item) => {
+        return item._id;
+      })
+    )
+  );
 
-  const handleUpdate = () => {
-    console.log("Update");
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    console.log("initiated");
+    const formData = new FormData();
+    formData.append("promoType", form.promoType);
+    formData.append("title", form.title);
+    formData.append("createdAt", form.from);
+    formData.append("expiresAt", form.to);
+    formData.append(
+      "products",
+      JSON.stringify(
+        selectedProducts.map((item) => {
+          return item._id;
+        })
+      )
+    );
+
+    if (featureBannerImageFile) {
+      form.append("featureBannerImgUrl", featureBannerImageFile);
+    }
+
+    const response = await dispatch(
+      updateFeatureBannerAction(selectedBanner?._id, formData)
+    );
+    if (response) {
+      navigate("/admin/banner");
+      console.log("done");
+    }
   };
 
   useEffect(() => {
@@ -91,6 +125,7 @@ const UpdateFeatureBanner = () => {
                 <Form.Control
                   type="text"
                   name="title"
+                  value={form.title ?? ""}
                   onChange={handleOnChange}
                   required
                 />
@@ -127,7 +162,7 @@ const UpdateFeatureBanner = () => {
                 <Form.Control
                   type="date"
                   name="from"
-                  value={form.from}
+                  value={form.from ?? ""}
                   onChange={handleOnChange}
                   required
                 />
@@ -140,7 +175,7 @@ const UpdateFeatureBanner = () => {
                 <Form.Control
                   type="date"
                   name="to"
-                  value={form.to}
+                  value={form.to ?? ""}
                   onChange={handleOnChange}
                   required
                 />
@@ -152,10 +187,8 @@ const UpdateFeatureBanner = () => {
               <Form.Control
                 type="file"
                 accept="image/*"
-                name="featureBannerImg"
                 onChange={handleFeatureBannerImageChange}
                 ref={featureBannerImageRef}
-                required
               />
               {featureBannerImagePreview && (
                 <div className="d-flex flex-wrap gap-2 mb-3">
@@ -191,7 +224,7 @@ const UpdateFeatureBanner = () => {
               <Button
                 style={{ width: "40%" }}
                 variant="danger"
-                onClick={() => setIsCreatingBanner(false)}
+                onClick={() => navigate("/admin/banner")}
               >
                 Cancel
               </Button>

@@ -34,6 +34,7 @@ export const deleteFeatureBannerAction = (id) => async (dispatch) => {
 }
 export const updateFeatureBannerAction = (id, updateObj) => async (dispatch) => {
     const pending = updateFeatureBannerApi(id, updateObj)
+    console.log(updateObj)
     toast(pending, {
         pending: "Updating ... "
     })
@@ -41,5 +42,6 @@ export const updateFeatureBannerAction = (id, updateObj) => async (dispatch) => 
     toast[status](message)
     if (status === "success") {
         dispatch(fetchFeatureBannerAction())
+        return true
     }
 }
