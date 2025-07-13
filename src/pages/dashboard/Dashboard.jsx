@@ -5,10 +5,14 @@ import { setMenu } from "../../features/user/userSlice.js";
 import SmartDashboard from "./SmartDashboard.jsx";
 import BreadCrumbsAdmin from "../../components/breadCrumbs/BreadCrumbsAdmin.jsx";
 import { fetchUserAction } from "../../features/user/userAction.js";
+import { RiRobot3Line } from "react-icons/ri";
+import TopBar from "./TopBar.jsx";
+import MidPart from "./MidPart.jsx";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
+  const [smartDashboard, setSmartDashboard] = useState(false);
 
   const fetchData = async () => {
     await dispatch(fetchUserAction());
@@ -29,7 +33,30 @@ const Dashboard = () => {
   return (
     <UserLayout pageTitle="Smart Dashboard">
       <BreadCrumbsAdmin />
-      <SmartDashboard />
+
+      {/* <SmartDashboard /> */}
+      <div className="w-100">
+        {/* Top Bar */}
+        <TopBar />
+        <MidPart />
+      </div>
+
+      {/* smart dashboard */}
+      <div
+        className="position-fixed border rounded-circle fs-3 px-2 bg-dark text-white"
+        style={{ bottom: "10px", right: "10px", cursor: "pointer" }}
+        onClick={() => setSmartDashboard(!smartDashboard)}
+        title="AI Powered Chat Assistance"
+      >
+        <RiRobot3Line />
+      </div>
+
+      {smartDashboard && (
+        <SmartDashboard
+          setSmartDashboard={setSmartDashboard}
+          smartDashboard={smartDashboard}
+        />
+      )}
     </UserLayout>
   );
 };

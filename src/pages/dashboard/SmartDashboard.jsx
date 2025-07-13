@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { chatApi } from "./chatapi";
 import MyChart from "../../Charts/MyChart";
+import { Modal } from "react-bootstrap";
 
-const SmartDashboard = () => {
+const SmartDashboard = ({ smartDashboard, setSmartDashboard }) => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const chatBoxRef = useRef(null);
 
   const [messages, setMessages] = useState(() => {
@@ -74,71 +80,62 @@ const SmartDashboard = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.chatBox} ref={chatBoxRef}>
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            style={{
-              ...styles.message,
-              alignSelf: msg.from === "admin" ? "flex-end" : "flex-start",
-              background: msg.from === "admin" ? "#dcf8c6" : "#f1f0f0",
-            }}
-          >
-            {msg.type === "text" ? (
-              <div
-                dangerouslySetInnerHTML={{ __html: msg.text }}
-                style={{ fontSize: "14px" }}
-              />
-            ) : msg.type === "chart" ? (
-              <div style={{ maxWidth: "100%" }}>
+    <Modal show={smartDashboard} onHide={() => setSmartDashboard(false)}>
+      <Modal.Header closeButton>
+        <Modal.Title>Chat Bot</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div ref={chatBoxRef} style={styles.chatBox}>
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              style={{
+                ...styles.message,
+                alignSelf: msg.from === "admin" ? "flex-end" : "flex-start",
+                background: msg.from === "admin" ? "#dcf8c6" : "#f1f0f0",
+              }}
+            >
+              {msg.type === "text" ? (
                 <div
-                  dangerouslySetInnerHTML={{ __html: msg.explanation }}
-                  style={{ fontSize: "14px", marginBottom: "10px" }}
+                  dangerouslySetInnerHTML={{ __html: msg.text }}
+                  style={{ fontSize: "14px" }}
                 />
-                <MyChart
-                  type={msg.chartType}
-                  labels={msg.labels}
-                  values={msg.values}
-                />
-              </div>
-            ) : (
-              <span>{msg.text}</span>
-            )}
-          </div>
-        ))}
-      </div>
-
-      <div style={styles.inputArea}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your question..."
-          style={styles.input}
-        />
-        <button onClick={handleSend} style={styles.button}>
-          Send
-        </button>
-      </div>
-    </div>
+              ) : msg.type === "chart" ? (
+                <div style={{ maxWidth: "100%" }}>
+                  <div
+                    dangerouslySetInnerHTML={{ __html: msg.explanation }}
+                    style={{ fontSize: "14px", marginBottom: "10px" }}
+                  />
+                  <MyChart
+                    type={msg.chartType}
+                    labels={msg.labels}
+                    values={msg.values}
+                  />
+                </div>
+              ) : (
+                <span>{msg.text}</span>
+              )}
+            </div>
+          ))}
+        </div>
+        <div style={styles.inputArea}>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type your question..."
+            style={styles.input}
+          />
+          <button onClick={handleSend} style={styles.button}>
+            Send
+          </button>
+        </div>
+      </Modal.Body>
+    </Modal>
   );
 };
 
 const styles = {
-  container: {
-    margin: "0 auto",
-    height: "80vh", // already good
-    maxWidth: "800px", // optional, center it nicely
-    display: "flex",
-    flexDirection: "column",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    backgroundColor: "#fff",
-    position: "relative", // ensure children can be positioned
-    overflow: "hidden", // prevent outer scroll
-  },
-
   chatBox: {
     flex: 1, // takes all remaining height above input
     overflowY: "auto",
