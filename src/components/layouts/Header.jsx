@@ -58,7 +58,7 @@ const Header = ({ handleCart, setNavHeight }) => {
           className=" fs-1 fw-bold order-0"
           style={{ cursor: "pointer" }}
         >
-          BRAND
+          DEV STYLE
         </Navbar.Brand>
         <div id="navbar-search-mobile" className="d-block d-md-none">
           <Nav className="ms-auto border">

@@ -24,7 +24,7 @@ const Stars = ({ avgRating }) => {
     }
   }
   return (
-    <div className="d-flex align-items-center" style={{ maxHeight: "40px" }}>
+    <div className="d-flex align-items-center" style={{ maxHeight: "20px", fontSize:"15px"}}>
       <div className="d-flex align-items-center">
         {Stars.map((item, index) => item)}
       </div>
