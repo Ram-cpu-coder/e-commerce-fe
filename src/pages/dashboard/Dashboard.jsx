@@ -8,6 +8,7 @@ import { fetchUserAction } from "../../features/user/userAction.js";
 import { RiRobot3Line } from "react-icons/ri";
 import TopBar from "./TopBar.jsx";
 import MidPart from "./MidPart.jsx";
+import RecentActivities from "./RecentActivities.jsx";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const Dashboard = () => {
         {/* Top Bar */}
         <TopBar />
         <MidPart />
+        <RecentActivities />
       </div>
 
       {/* smart dashboard */}
