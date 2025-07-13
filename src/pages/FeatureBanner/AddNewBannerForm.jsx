@@ -36,6 +36,7 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
     e.preventDefault();
     const formData = new FormData();
 
+    formData.append("status", form.statuses);
     formData.append("promoType", form.promoType);
     formData.append("title", form.title);
     formData.append("createdAt", form.from);
@@ -62,6 +63,17 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
           <Row className="m-0 text-center">
             <strong className="fs-4 mb-5">Create a new Banner</strong>
           </Row>
+
+          <Form.Check
+            type="switch"
+            name="statuses"
+            id="custom-switch"
+            checked={form?.statuses === "active"}
+            className="mb-3 d-flex gap-2"
+            style={{ marginInlineEnd: "auto", width: "40%" }}
+            label="Status"
+            onChange={handleOnChange}
+          />
 
           <div className="d-flex flex-wrap">
             <Form.Group

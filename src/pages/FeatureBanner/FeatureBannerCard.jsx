@@ -31,7 +31,7 @@ const FeatureBannerCard = ({ item }) => {
       {featureBannerImgUrl && (
         <Card.Img
           variant="top"
-          src={featureBannerImgUrl}
+          src={`${featureBannerImgUrl}?v=${_id}`}
           alt="Banner"
           style={{
             height: "160px",

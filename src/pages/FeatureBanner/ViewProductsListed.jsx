@@ -7,9 +7,9 @@ import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBa
 import { getActiveProductAction } from "../../features/products/productActions";
 
 import { Button, Col, Form, Row, Table } from "react-bootstrap";
-import { MdOutlineAddBox } from "react-icons/md";
-import { Link } from "react-router-dom";
 import useForm from "../../hooks/useForm";
+import BreadCrumbsAdmin from "../../components/breadCrumbs/BreadCrumbsAdmin";
+import { filterFunction } from "../../utils/filterProducts";
 
 const ViewProductsListed = () => {
   const dispatch = useDispatch();
@@ -17,18 +17,23 @@ const ViewProductsListed = () => {
   const { _id } = useParams();
   const { featureBanner } = useSelector((state) => state.featureBannerInfo);
   const { allActiveProducts } = useSelector((state) => state.productInfo);
-  const { Categories } = useSelector((state) => state.categoryInfo);
+  const { Categories, selectedCategory } = useSelector(
+    (state) => state.categoryInfo
+  );
 
-  const { form, handleOnChange, setForm } = useForm({});
+  const { form, handleOnChange, setForm } = useForm({
+    searchQuery: "",
+    category: selectedCategory?._id || "all",
+    others: "newest",
+  });
 
   const [isFiltering, setIsFiltering] = useState(false);
+  const [displayProducts, setDisplayProducts] = useState([]);
 
   const selectedBanner = featureBanner?.find((item) => item._id === _id);
   const productIdsFromSelectedBanner = selectedBanner?.products.map(
     (item) => item
   );
-
-  console.log(productIdsFromSelectedBanner, "ids");
 
   const listedProducts = allActiveProducts?.filter((item) =>
     productIdsFromSelectedBanner?.includes(item._id)
@@ -39,8 +44,6 @@ const ViewProductsListed = () => {
     return category?.categoryName;
   };
 
-  console.log(listedProducts, "listed");
-
   useEffect(() => {
     dispatch(setMenu("Banners"));
   }, []);
@@ -49,12 +52,24 @@ const ViewProductsListed = () => {
     dispatch(fetchFeatureBannerAction());
     dispatch(getActiveProductAction());
   }, []);
+
+  useEffect(() => {
+    setDisplayProducts(filterFunction(form, listedProducts || []));
+  }, [form]);
+
+  useEffect(() => {
+    const isActive =
+      form.searchQuery.trim() !== "" ||
+      form.category !== "all" ||
+      form.others !== "newest";
+
+    setIsFiltering(isActive);
+  }, [form]);
+
   return (
     <UserLayout pageTitle="Listed Products">
+      <BreadCrumbsAdmin />
       <>
-        {isFiltering && (
-          <p className="text-muted small">Showing filtered results</p>
-        )}
         {selectedBanner?._id && (
           <div className="mb-3 p-2 ">
             <Button variant="dark" onClick={() => navigate("/admin/banner")}>
@@ -105,20 +120,15 @@ const ViewProductsListed = () => {
                   <option value="toA">Name : Z to A </option>
                 </Form.Select>
               </Form.Group>
-              <div>
-                <Link to="/admin/products/new">
-                  <Button variant="dark">
-                    <MdOutlineAddBox /> Add New
-                  </Button>
-                </Link>
-              </div>
             </Col>
           </Row>
         </Form>
 
         <hr />
         {/* Table */}
-
+        {isFiltering && (
+          <p className="text-muted small">Showing filtered results</p>
+        )}
         <Table hover responsive>
           <thead>
             <tr>
@@ -131,8 +141,8 @@ const ViewProductsListed = () => {
             </tr>
           </thead>
           <tbody>
-            {listedProducts?.length > 0 ? (
-              listedProducts?.map((product, i) => (
+            {displayProducts?.length > 0 ? (
+              displayProducts?.map((product) => (
                 <tr key={product._id}>
                   <td style={{ maxWidth: "50px" }} className="py-3">
                     <img

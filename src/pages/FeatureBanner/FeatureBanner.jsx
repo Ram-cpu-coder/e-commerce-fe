@@ -26,6 +26,9 @@ const FeatureBanner = () => {
 
   const { setIsCreatingBanner, isCreatingBanner } = useFeatureBannerForm();
 
+  const [displayData, setDisplayData] = useState([]);
+  const [isFiltering, setIsFiltering] = useState(false);
+
   useEffect(() => {
     dispatch(setMenu("Banners"));
   }, []);
@@ -40,17 +43,32 @@ const FeatureBanner = () => {
     <UserLayout pageTitle="Banners">
       <div className="position-relative">
         <BreadCrumbsAdmin />
-        <ControlBarFeatureBanner form={form} handleOnChange={handleOnChange} />
+        <ControlBarFeatureBanner
+          featureBanner={featureBanner}
+          setDisplayData={setDisplayData}
+          setIsFiltering={setIsFiltering}
+        />
         <hr />
         <Row className="mt-4 w-100 g-4">
-          <Col xs={12} sm={6} md={4} lg={3}>
-            <NewFeatureBanner setIsCreatingBanner={setIsCreatingBanner} />
-          </Col>
-          {featureBanner?.map((item) => (
-            <Col key={item._id} xs={12} sm={6} md={6} lg={3}>
-              <FeatureBannerCard item={item} />
+          {!isFiltering && (
+            <Col xs={12} sm={6} md={4} lg={3}>
+              <NewFeatureBanner setIsCreatingBanner={setIsCreatingBanner} />
             </Col>
-          ))}
+          )}
+          {displayData.length > 0 ? (
+            displayData?.map((item) => (
+              <Col key={item._id} xs={12} sm={6} md={6} lg={3}>
+                <FeatureBannerCard item={item} />
+              </Col>
+            ))
+          ) : (
+            <div className="text-center">
+              <strong>No products found</strong>
+              <div className="text-muted small">
+                Try adjusting your filters or search keywords.
+              </div>
+            </div>
+          )}
         </Row>
 
         {isCreatingBanner && (

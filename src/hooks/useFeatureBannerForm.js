@@ -34,6 +34,7 @@ const useFeatureBannerForm = () => {
         featureBannerImageFile,
         featureBannerImagePreview,
         setFeatureBannerImagePreview,
+        setFeatureBannerImageFile,
         featureBannerImageRef,
         handleFeatureBannerImageChange,
         toggleProduct,

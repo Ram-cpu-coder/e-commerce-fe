@@ -28,6 +28,7 @@ export const updateFeatureBannerApi = (id, updateObj) => {
         method: "put",
         url: `${URL}/${id}`,
         isPrivate: true,
-        data: updateObj
+        data: updateObj,
+        contentType: "multipart/form-data",
     })
 }

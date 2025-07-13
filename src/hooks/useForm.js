@@ -2,14 +2,16 @@ import { useEffect, useState } from "react";
 import { validator } from "../utils/validatePassword";
 
 const handleOnChange = ({ e, form, setForm }) => {
-  const { name, value } = e.target;
+  let { name, value, checked } = e.target;
+  // i did statuses for swicth button, dont change the name as it will collide with the filtering functions 
+  if (name === "statuses") {
+    value = checked ? "active" : "inactive"
+  }
 
   if (name === "fullName") {
-    console.log(name, value, 2000)
     let fName = value.split(" ")[0];
     let lName = value.split(" ")[1] ?? "";
 
-    console.log(fName, lName)
     setForm({
       ...form,
       fName,
@@ -24,7 +26,10 @@ const handleOnChange = ({ e, form, setForm }) => {
     });
 
   }
+
+
 };
+
 
 const useForm = (initialState) => {
   const [form, setForm] = useState(initialState);

@@ -13,6 +13,7 @@ import {
 } from "../../features/featureBanner/featureBannerAction";
 import useForm from "../../hooks/useForm";
 import { getActiveProductAction } from "../../features/products/productActions";
+import BreadCrumbsAdmin from "../../components/breadCrumbs/BreadCrumbsAdmin";
 
 const UpdateFeatureBanner = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const UpdateFeatureBanner = () => {
     showProductModal,
     selectedProducts,
     setSelectedProducts,
+    setFeatureBannerImageFile,
   } = useFeatureBannerForm();
 
   // finding the particular feature banner of the given id
@@ -44,9 +46,11 @@ const UpdateFeatureBanner = () => {
     if (allActiveProducts.length <= 0) {
       dispatch(getActiveProductAction());
     }
+
     const preExistingProductsAdded = allActiveProducts?.filter((item) =>
       selectedBanner?.products.includes(item._id)
     );
+
     if (selectedBanner?._id) {
       const { _id, createdAt, updatedAt, __v, ...cleaned } = selectedBanner;
       setForm({
@@ -54,23 +58,18 @@ const UpdateFeatureBanner = () => {
         to: selectedBanner?.expiresAt.split("T")[0],
         ...cleaned,
       });
+
       setFeatureBannerImagePreview(cleaned.featureBannerImgUrl || "");
+      setFeatureBannerImageFile(cleaned.featureBannerImgUrl || "");
       setSelectedProducts(preExistingProductsAdded);
     }
   }, [selectedBanner]);
 
-  console.log(
-    JSON.stringify(
-      selectedProducts.map((item) => {
-        return item._id;
-      })
-    )
-  );
-
   const handleUpdate = async (e) => {
     e.preventDefault();
-    console.log("initiated");
     const formData = new FormData();
+
+    formData.append("status", form.statuses);
     formData.append("promoType", form.promoType);
     formData.append("title", form.title);
     formData.append("createdAt", form.from);
@@ -84,8 +83,8 @@ const UpdateFeatureBanner = () => {
       )
     );
 
-    if (featureBannerImageFile) {
-      form.append("featureBannerImgUrl", featureBannerImageFile);
+    if (featureBannerImagePreview) {
+      formData.append("featureBannerImgUrl", featureBannerImageFile);
     }
 
     const response = await dispatch(
@@ -93,7 +92,6 @@ const UpdateFeatureBanner = () => {
     );
     if (response) {
       navigate("/admin/banner");
-      console.log("done");
     }
   };
 
@@ -116,6 +114,16 @@ const UpdateFeatureBanner = () => {
               <strong className="fs-4 mb-5">Update Banner</strong>
             </Row>
 
+            <Form.Check
+              type="switch"
+              name="statuses"
+              id="custom-switch"
+              checked={form?.statuses === "active"}
+              className="mb-3 d-flex gap-2"
+              style={{ marginInlineEnd: "auto", width: "40%" }}
+              label="Status"
+              onChange={handleOnChange}
+            />
             <div className="d-flex flex-wrap">
               <Form.Group
                 className="mb-3"
