@@ -14,21 +14,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { createFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 import AddProductsInBanner from "./AddProductsInBanner";
 import AddedProductsSection from "./AddedProductsSection";
+import useFeatureBannerForm from "../../hooks/useFeatureBannerForm";
 
 const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
-  const [featureBannerImageFile, setFeatureBannerImageFile] = useState(null);
-  const [featureBannerImagePreview, setFeatureBannerImagePreview] =
-    useState("");
-  const [showProductModal, setShowProductModal] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-
   const dispatch = useDispatch();
-  const featureBannerImageRef = useRef(null);
+
+  const {
+    featureBannerImageFile,
+    featureBannerImagePreview,
+    featureBannerImageRef,
+    handleFeatureBannerImageChange,
+    toggleProduct,
+    clearImage,
+    setShowProductModal,
+    showProductModal,
+    selectedProducts,
+    setSelectedProducts,
+  } = useFeatureBannerForm();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
+    formData.append("status", form.statuses);
     formData.append("promoType", form.promoType);
     formData.append("title", form.title);
     formData.append("createdAt", form.from);
@@ -45,22 +53,6 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
     if (response) setIsCreatingBanner(false);
   };
 
-  const handleFeatureBannerImageChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setFeatureBannerImageFile(file);
-    setFeatureBannerImagePreview(URL.createObjectURL(file));
-  };
-
-  const toggleProduct = (product) => {
-    const exists = selectedProducts.find((p) => p._id === product._id);
-    if (exists) {
-      setSelectedProducts((prev) => prev.filter((p) => p._id !== product._id));
-    } else {
-      setSelectedProducts((prev) => [...prev, product]);
-    }
-  };
-
   return (
     <Row
       className="position-absolute bg-white w-100 d-flex flex-column"
@@ -71,6 +63,17 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
           <Row className="m-0 text-center">
             <strong className="fs-4 mb-5">Create a new Banner</strong>
           </Row>
+
+          <Form.Check
+            type="switch"
+            name="statuses"
+            id="custom-switch"
+            checked={form?.statuses === "active"}
+            className="mb-3 d-flex gap-2"
+            style={{ marginInlineEnd: "auto", width: "40%" }}
+            label="Status"
+            onChange={handleOnChange}
+          />
 
           <div className="d-flex flex-wrap">
             <Form.Group
@@ -148,11 +151,7 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
               <div className="d-flex flex-wrap gap-2 mb-3">
                 <div className="d-flex flex-column position-relative mt-2">
                   <MdDelete
-                    onClick={() => {
-                      setFeatureBannerImageFile(null);
-                      setFeatureBannerImagePreview("");
-                      featureBannerImageRef.current.value = "";
-                    }}
+                    onClick={clearImage}
                     className="position-absolute end-0 text-danger"
                     style={{ cursor: "pointer" }}
                   />

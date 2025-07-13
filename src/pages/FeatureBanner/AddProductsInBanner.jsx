@@ -15,8 +15,8 @@ const AddProductsInBanner = ({
   showProductModal,
   selectedProducts,
 }) => {
-  const { allActiveProducts } = useSelector((state) => state.productInfo);
   const { Categories } = useSelector((state) => state.categoryInfo);
+  const { allActiveProducts } = useSelector((state) => state.productInfo);
 
   const [categories, setCategories] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
@@ -27,13 +27,12 @@ const AddProductsInBanner = ({
     Categories,
     allActiveProducts
   ) => {
-    // user enters the keyword
-    // search the cateogryid with that name
-    const foundCategoryIds = Categories.filter((cat) =>
+    const foundCategoryIds = Categories?.filter((cat) =>
       cat.categoryName.toLowerCase().includes(keyword.toLowerCase())
     ).map((item) => item._id);
+
     // look for the products having that category id
-    const products = allActiveProducts.filter((item) =>
+    const products = allActiveProducts?.filter((item) =>
       foundCategoryIds.includes(item.category)
     );
     setFilteredProducts(products);
@@ -41,7 +40,7 @@ const AddProductsInBanner = ({
 
   useEffect(() => {
     setFilteredProducts(allActiveProducts);
-  }, []);
+  }, [allActiveProducts]);
 
   return (
     <Modal
@@ -61,7 +60,7 @@ const AddProductsInBanner = ({
             onChange={(e) => {
               setSearchTerm(e.target.value);
               setFilteredProducts(
-                allActiveProducts.filter((product) =>
+                allActiveProducts?.filter((product) =>
                   product.name
                     .toLowerCase()
                     .includes(e.target.value.toLowerCase())
@@ -80,7 +79,6 @@ const AddProductsInBanner = ({
                   allActiveProducts
                 );
               }}
-              required
             >
               <option value="" disabled>
                 By Categories
@@ -101,12 +99,12 @@ const AddProductsInBanner = ({
             </tr>
           </thead>
           <tbody>
-            {filteredProducts.map((product) => (
+            {filteredProducts?.map((product) => (
               <tr key={product._id}>
                 <td>
                   <Form.Check
                     type="checkbox"
-                    checked={selectedProducts.some(
+                    checked={selectedProducts?.some(
                       (p) => p._id === product._id
                     )}
                     onChange={() => toggleProduct(product)}

@@ -23,3 +23,12 @@ export const deleteFeatureBannerApi = (id) => {
         isPrivate: true
     })
 }
+export const updateFeatureBannerApi = (id, updateObj) => {
+    return apiProcessor({
+        method: "put",
+        url: `${URL}/${id}`,
+        isPrivate: true,
+        data: updateObj,
+        contentType: "multipart/form-data",
+    })
+}

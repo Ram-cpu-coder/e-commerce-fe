@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { setFeatureBanner } from "./featureBannerSlice";
-import { createFeatureBannerApi, deleteFeatureBannerApi, fetchFeatureBannerApi } from "./featureBannerApi";
+import { createFeatureBannerApi, deleteFeatureBannerApi, fetchFeatureBannerApi, updateFeatureBannerApi } from "./featureBannerApi";
 
 export const createFeatureBannerAction = (obj) => async (dispatch) => {
     const pending = createFeatureBannerApi(obj);
@@ -30,5 +30,18 @@ export const deleteFeatureBannerAction = (id) => async (dispatch) => {
     toast[status](message)
     if (status === "success") {
         dispatch(fetchFeatureBannerAction())
+    }
+}
+export const updateFeatureBannerAction = (id, updateObj) => async (dispatch) => {
+    const pending = updateFeatureBannerApi(id, updateObj)
+    console.log(updateObj)
+    toast(pending, {
+        pending: "Updating ... "
+    })
+    const { status, message, update } = await pending;
+    toast[status](message)
+    if (status === "success") {
+        dispatch(fetchFeatureBannerAction())
+        return true
     }
 }
