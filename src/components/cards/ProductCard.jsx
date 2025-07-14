@@ -116,6 +116,7 @@ const ProductCard = ({ item }) => {
             ) : (
               <span className="badge bg-secondary">New</span>
             )}
+
           </div>
         </div>
 
