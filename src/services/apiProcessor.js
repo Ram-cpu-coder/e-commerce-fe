@@ -2,6 +2,9 @@ import axios from "axios";
 
 const authEp = import.meta.env.VITE_BACKEND_BASE_URL + "/auth";
 
+let isRefreshing = false
+let refreshPromise = null
+
 const getAccessJWT = () => {
   return sessionStorage.getItem("accessJWT");
 };
@@ -9,6 +12,7 @@ const getAccessJWT = () => {
 const getRefreshJWT = () => {
   return localStorage.getItem("refreshJWT");
 };
+
 // api processor
 export const apiProcessor = async ({
   method,
@@ -39,38 +43,64 @@ export const apiProcessor = async ({
     });
     return response.data;
   } catch (error) {
-    // if the accessToken is expired
-    if (error?.response?.data?.message == "jwt expired") {
+    const errorMsg = error?.response?.data?.message || error?.message;
 
-      const refreshData = await apiProcessor({
-        method: "get",
-        url: authEp + "/renew-jwt",
-        isPrivate: false,
-        isRefreshToken: true,
-      });
+    // Avoid retrying the refresh endpoint itself
+    if (errorMsg === "jwt expired" && !isRefreshToken) {
+      if (!isRefreshing) {
+        isRefreshing = true;
+        refreshPromise = (async () => {
+          try {
+            // Call apiProcessor to refresh the token itself
+            const refreshData = await apiProcessor({
+              method: "get",
+              url: authEp + "/renew-jwt",
+              isPrivate: false,
+              isRefreshToken: true,
+            });
 
-      if (refreshData && refreshData?.status == "success") {
-        // here the accesstoken is again set in the sessionStorage
-        sessionStorage.setItem("accessJWT", refreshData.accessToken);
+            if (refreshData?.accessToken) {
+              sessionStorage.setItem("accessJWT", refreshData.accessToken);
+            }
+
+            isRefreshing = false;
+            return refreshData;
+          } catch (refreshError) {
+            sessionStorage.removeItem("accessJWT");
+            sessionStorage.removeItem("refreshJWT");
+
+            console.warn("Refresh token expired. Logging out.");
+          } finally {
+            isRefreshing = false;
+          }
+        })();
+      }
+
+
+      const refreshData = await refreshPromise
+      if (refreshData?.accessToken) {
+
         // returning the actual original api processor
-
         return apiProcessor({
           method,
           data,
           url,
           isPrivate,
+          contentType,
+          responseType,
         });
       } else {
         return {
           status: "error",
-          message: "Error renewing refresh token",
+          message: "Unable to refresh token",
         };
       }
+
     }
-    const message = error?.response?.data?.message ?? error.message;
+
     return {
       status: "error",
-      message,
+      message: errorMsg,
     };
   }
 };

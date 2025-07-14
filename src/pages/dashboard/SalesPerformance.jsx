@@ -11,11 +11,11 @@ import {
 
 const SalesPerformance = () => {
   const data = [
-    { name: "Jan", sales: 4000, profit: 2400 },
-    { name: "Feb", sales: 3000, profit: 1398 },
-    { name: "Mar", sales: 2000, profit: 9800 },
-    { name: "Apr", sales: 2780, profit: 3908 },
-    { name: "May", sales: 1890, profit: 4800 },
+    { name: "Jan", sales: 400, profit: 240 },
+    { name: "Feb", sales: 300, profit: 198 },
+    { name: "Mar", sales: 200, profit: 900 },
+    { name: "Apr", sales: 270, profit: 308 },
+    { name: "May", sales: 180, profit: 400 },
   ];
   return (
     <Col xs={12} md={9}>

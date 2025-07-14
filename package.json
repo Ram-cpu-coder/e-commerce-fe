@@ -21,6 +21,7 @@
     "aos": "^2.3.4",
     "axios": "^1.8.4",
     "bootstrap": "^5.3.5",
+    "numeral": "^2.0.6",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",

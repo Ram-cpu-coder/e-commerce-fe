@@ -54,7 +54,7 @@ const Login = () => {
                   name="Email"
                   required
                   onChange={(e) => setEmail(e.target.value)}
-                  className="form-control" // space for button inside input
+                  className="form-control"
                   style={{ paddingRight: "80px" }}
                   placeholder="Your registered Email"
                 />

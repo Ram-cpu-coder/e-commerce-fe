@@ -1,5 +1,6 @@
 import {
   fetchUserApi,
+  getAllUsersTimeFrame,
   loginApi,
   logoutApi,
   refreshTokenApi,
@@ -12,7 +13,7 @@ import {
   verifyUserApi,
 } from "./userApi";
 import { toast } from "react-toastify";
-import { resetUser, setUser } from "./userSlice.js";
+import { resetUser, setTimeFramePastWeekUsers, setTimeFramePresentWeekUsers, setUser } from "./userSlice.js";
 
 // login action
 export const loginAction = (form, navigate) => async (dispatch) => {
@@ -20,7 +21,7 @@ export const loginAction = (form, navigate) => async (dispatch) => {
   toast.promise(pending, {
     pending: "Logging..."
   })
-  const { status, message, user, accessToken, refreshToken } = await pending;
+  const { status, message, userInfo, accessToken, refreshToken } = await pending;
   toast[status](message);
   if (status == "success") {
     //upddate storage session for access token
@@ -28,10 +29,9 @@ export const loginAction = (form, navigate) => async (dispatch) => {
     // update local storage for refresh token
     localStorage.setItem("refreshJWT", refreshToken);
     //update the store
-    dispatch(setUser(user));
-    dispatch(fetchUserAction())
-    console.log("navigation triggered")
-    navigate("/");
+    await dispatch(setUser(userInfo));
+    await dispatch(fetchUserAction())
+    navigate("/")
   }
 };
 
@@ -115,6 +115,27 @@ export const fetchUserAction = () => async (dispatch) => {
     toast.error("Session expired, please login again");
   }
 };
+
+export const getAdminUsersPresentWeekTimeFrameAction = (startTime, endTime) => async (dispatch) => {
+
+  const { status, message, users } = await getAllUsersTimeFrame(startTime, endTime);
+
+  await dispatch(setTimeFramePresentWeekUsers(users))
+  if (status === "success") {
+    return true
+  }
+}
+
+export const getAdminUsersPastWeekTimeFrameAction = (startTime, endTime) => async (dispatch) => {
+
+  const { status, message, users } = await getAllUsersTimeFrame(startTime, endTime);
+
+  await dispatch(setTimeFramePastWeekUsers(users))
+  if (status === "success") {
+    return true
+  }
+}
+
 
 // auto login action
 export const autoLogin = () => async (dispatch) => {

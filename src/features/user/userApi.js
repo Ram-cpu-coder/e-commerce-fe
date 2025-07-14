@@ -38,6 +38,7 @@ export const verifyEmailAndSendOTPApi = (email) => {
     data: email,
   });
 };
+
 export const verifyOTPApi = ({ Otp, email }) => {
   return apiProcessor({
     method: "post",
@@ -45,6 +46,7 @@ export const verifyOTPApi = ({ Otp, email }) => {
     data: { Otp: Otp, email: email },
   });
 };
+
 // Update Password api
 export const updatePwApi = ({ email, Otp, password, confirmPassword }) => {
   return apiProcessor({
@@ -73,7 +75,6 @@ export const fetchUserApi = () => {
 };
 // refrsh token api
 export const refreshTokenApi = async () => {
-  console.log("called")
   try {
     return apiProcessor({
       method: "get",
@@ -84,7 +85,6 @@ export const refreshTokenApi = async () => {
   } catch (error) {
     sessionStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    console.log(error)
     throw error;
   }
 };
@@ -113,4 +113,11 @@ export const resendVerificationLinkApi = (email) => {
     url: authUrl + '/verification-email',
     data: { email }
   });
+}
+export const getAllUsersTimeFrame = (startTime, endTime) => {
+  return apiProcessor({
+    method: "get",
+    url: `${authUrl}/timeFrame?startTime=${startTime}&endTime=${endTime}`,
+    isPrivate: true,
+  })
 }

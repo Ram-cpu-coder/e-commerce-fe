@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { deleteOrderApi, deleteOrderItemApi, getAllOrders, getOrder, updateOrder } from "./orderAxios"
-import { setOrders } from "./orderSlice";
+import { deleteOrderApi, deleteOrderItemApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
+import { setOrders, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
 
 
 export const getOrderAction = () => async (dispatch, getState) => {
@@ -17,6 +17,26 @@ export const getAdminOrderAction = () => async (dispatch, getState) => {
     const { status, message, orders } = await pending;
 
     await dispatch(setOrders(orders))
+    if (status === "success") {
+        return true
+    }
+}
+
+export const getAdminOrdersPresentWeekTimeFrameAction = (startTime, endTime) => async (dispatch) => {
+
+    const { status, message, orders } = await getAllOrdersTimeFrame(startTime, endTime);
+
+    await dispatch(setTimeFramePresentWeekOrders(orders))
+    if (status === "success") {
+        return true
+    }
+}
+
+export const getAdminOrdersPastWeekTimeFrameAction = (startTime, endTime) => async (dispatch) => {
+
+    const { status, message, orders } = await getAllOrdersTimeFrame(startTime, endTime);
+
+    await dispatch(setTimeFramePastWeekOrders(orders))
     if (status === "success") {
         return true
     }
