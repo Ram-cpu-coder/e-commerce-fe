@@ -21,7 +21,7 @@ const LoginForm = () => {
   useEffect(() => {
     //navigate to location when the user travelled from
     user?._id && navigate(sendTo);
-  }, [user?._id, navigate, sendTo]);
+  }, [user._id, navigate, sendTo]);
 
   const handleOnSubmit = async (e) => {
     //prevent default

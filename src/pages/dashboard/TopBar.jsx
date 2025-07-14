@@ -7,7 +7,6 @@ import NewCustomers from "./NewCustomers";
 const TopBar = () => {
   return (
     <Row className="g-3">
-      {/* Left 75% */}
       <Col xs={12} md={9}>
         <Row className="g-3">
           {/* Total Sales  */}

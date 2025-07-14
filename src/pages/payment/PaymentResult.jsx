@@ -70,7 +70,7 @@ const PaymentResult = () => {
       }
     };
     user && verify();
-  }, [user]);
+  }, [user, sessionId, dispatch, cart._id]);
 
   if (isVerified === null)
     return (

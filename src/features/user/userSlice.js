@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {},
+  timeFramePresentWeekUsers: [],
+  timeFramePastWeekUsers: [],
 };
 
 const userSlice = createSlice({
@@ -17,9 +19,15 @@ const userSlice = createSlice({
     setMenu: (state, action) => {
       state.menu = action.payload;
     },
+    setTimeFramePresentWeekUsers: (state, { payload }) => {
+      state.timeFramePresentWeekUsers = payload || []
+    },
+    setTimeFramePastWeekUsers: (state, { payload }) => {
+      state.timeFramePastWeekUsers = payload || []
+    },
   },
 });
 
-export const { setUser, resetUser, setMenu } = userSlice.actions;
+export const { setUser, resetUser, setMenu, setTimeFramePresentWeekUsers, setTimeFramePastWeekUsers } = userSlice.actions;
 
 export default userSlice.reducer;
