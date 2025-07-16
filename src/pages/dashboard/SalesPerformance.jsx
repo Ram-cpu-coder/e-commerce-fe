@@ -45,7 +45,7 @@ const SalesPerformance = () => {
         <LineChart height={400} width={1000} data={data} className="w-100">
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
-          <YAxis dataKey="" />
+          <YAxis />
           <Tooltip />
           <CartesianGrid stroke="#ffffffff" />
           <Line type="monotone" dataKey="sales" stroke="#ff7300" />

@@ -51,8 +51,8 @@ const PaymentResult = () => {
       hasVerified.current = true;
 
       const data = await verifyPaymentAction(sessionId, {
-        shippingAddress: user.address,
-        userId: user._id,
+        shippingAddress: user?.address,
+        userId: user?._id,
       });
       console.log(data);
       if (!data) {
@@ -78,7 +78,7 @@ const PaymentResult = () => {
         Verifying payment...
       </p>
     );
-  console.log(isVerified);
+
   if (isVerified && isSuccessParam === "true") {
     return (
       <div
