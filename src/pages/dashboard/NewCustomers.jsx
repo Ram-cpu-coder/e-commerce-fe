@@ -79,7 +79,6 @@ const NewCustomers = () => {
     }
   }, [pastUsersAmount, presentUsersAmount]);
 
-  console.log(timeFramePastWeekUsers, timeFramePresentWeekUsers);
   return (
     <Col xs={12} sm={6}>
       <div className="border rounded-4 py-3 px-4 h-100">

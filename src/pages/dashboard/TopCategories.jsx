@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Cell,
   Legend,
@@ -8,16 +9,43 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { getAdminProductNoPaginationAction } from "../../features/products/productActions";
 
 const TopCategories = () => {
-  const data = [
-    { name: "Electronics", value: 400 },
-    { name: "Fashion", value: 300 },
-    { name: "Grocery", value: 300 },
-    { name: "Others", value: 200 },
-  ];
+  const dispatch = useDispatch();
 
-  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+  const { Categories } = useSelector((state) => state.categoryInfo);
+  const { allAdminProducts } = useSelector((state) => state.productInfo);
+
+  const selectedCatProductLength = (selectedCat) => {
+    const productsAssociated = allAdminProducts?.filter(
+      (item) => item.category == selectedCat._id
+    );
+    return productsAssociated?.length;
+  };
+
+  const data = [];
+
+  for (let i = 0; i < Categories?.length; i++) {
+    const category = Categories[i];
+    const obj = {
+      name: category.categoryName,
+      value: selectedCatProductLength(category),
+    };
+    data.push(obj);
+  }
+
+  const generateColors = (num) => {
+    const colors = [];
+    for (let i = 0; i < num; i++) {
+      const hue = Math.floor((360 / num) * i);
+      colors.push(`hsl(${hue}, 70%, 50%)`);
+    }
+    return colors;
+  };
+
+  const COLORS = generateColors(Categories?.length || 0);
+
   const renderCustomLabel = ({
     cx,
     cy,
@@ -27,7 +55,7 @@ const TopCategories = () => {
     name,
   }) => {
     const RADIAN = Math.PI / 180;
-    const radius = outerRadius + 20; // push label further out
+    const radius = outerRadius + 10; // push label further out
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
@@ -44,6 +72,12 @@ const TopCategories = () => {
       </text>
     );
   };
+
+  useEffect(() => {
+    if (allAdminProducts.length <= 0) {
+      dispatch(getAdminProductNoPaginationAction());
+    }
+  }, []);
 
   return (
     <Col xs={12} md={3}>
