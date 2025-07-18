@@ -35,6 +35,14 @@ export const getAllOrdersTimeFrame = (startTime, endTime) => {
     })
 }
 
+export const getAdminSalesTimeFrameApi = (startTime, endTime, granularity) => {
+    return apiProcessor({
+        method: "get",
+        url: `${orderUrl}/report?startTime=${startTime}&endTime=${endTime}&granularity=${granularity}`,
+        isPrivate: true,
+    })
+}
+
 export const deleteOrderApi = (_id) => {
     return apiProcessor({
         method: "delete",
