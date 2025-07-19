@@ -3,7 +3,7 @@ import { validator } from "../utils/validatePassword";
 
 const handleOnChange = ({ e, form, setForm }) => {
   let { name, value, checked } = e.target;
-  // i did statuses for swicth button, dont change the name as it will collide with the filtering functions 
+  // i did statuses for switch button, dont change the name as it will collide with the filtering functions 
   if (name === "statuses") {
     value = checked ? "active" : "inactive"
   }
@@ -26,8 +26,6 @@ const handleOnChange = ({ e, form, setForm }) => {
     });
 
   }
-
-
 };
 
 

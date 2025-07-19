@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { deleteOrderApi, deleteOrderItemApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
-import { setOrders, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
+import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
+import { setOrders, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
 
 
 export const getOrderAction = () => async (dispatch, getState) => {
@@ -18,6 +18,15 @@ export const getAdminOrderAction = () => async (dispatch, getState) => {
 
     await dispatch(setOrders(orders))
     if (status === "success") {
+        return true
+    }
+}
+
+export const getAdminSalesTimeFrameAction = (startTime, endTime, granularity) => async (dispatch) => {
+
+    const { status, message, sales } = await getAdminSalesTimeFrameApi(startTime, endTime, granularity);
+    if (status === "success") {
+        dispatch(setSales(sales))
         return true
     }
 }

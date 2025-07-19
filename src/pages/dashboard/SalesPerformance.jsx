@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Form } from "react-bootstrap";
 import {
   CartesianGrid,
@@ -8,15 +8,119 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { getAdminSalesTimeFrameAction } from "../../features/orders/orderActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const SalesPerformance = () => {
-  const data = [
-    { name: "Jan", sales: 400, profit: 240 },
-    { name: "Feb", sales: 300, profit: 198 },
-    { name: "Mar", sales: 200, profit: 900 },
-    { name: "Apr", sales: 270, profit: 308 },
-    { name: "May", sales: 180, profit: 400 },
-  ];
+  const { sales } = useSelector((state) => state.orderInfo);
+
+  const [timeFrame, setTimeFrame] = useState("7d");
+  console.log(sales);
+  const dispatch = useDispatch();
+
+  const data = sales.sales?.map((item) => item);
+
+  const now = new Date();
+  const formatMongoDBDate = (date) => date.toISOString();
+
+  //  in case of  day selection
+  const dayInfo = (num) => {
+    const startTime = new Date(now);
+    const endTime = new Date(startTime);
+    startTime.setUTCDate(now.getUTCDate() - num + 1);
+    startTime.setUTCHours(0, 0, 0, 0);
+
+    endTime.setUTCDate(now.getUTCDate());
+    endTime.setUTCHours(23, 59, 59, 999);
+
+    return [formatMongoDBDate(startTime), formatMongoDBDate(endTime)];
+  };
+
+  // in case of month selection
+  const monthInfo = (num) => {
+    const startTime = new Date(now);
+    const endTime = new Date(startTime);
+    startTime.setUTCFullYear(now.getUTCFullYear(), now.getUTCMonth() - num, 1);
+    startTime.setUTCHours(0, 0, 0, 0);
+
+    // Set endTime to the last day of the month before the current month
+    endTime.setUTCFullYear(now.getUTCFullYear(), now.getUTCMonth(), 0);
+    endTime.setUTCHours(23, 59, 59, 999);
+
+    return [formatMongoDBDate(startTime), formatMongoDBDate(endTime)];
+  };
+
+  // year info
+  const yearInfo = (num) => {
+    const startTime = new Date(now);
+    const endTime = new Date(startTime);
+    startTime.setUTCFullYear(now.getUTCFullYear() - num);
+    startTime.setUTCHours(0, 0, 0, 0);
+
+    endTime.setUTCHours(23, 59, 59, 999);
+
+    return [formatMongoDBDate(startTime), formatMongoDBDate(endTime)];
+  };
+
+  useEffect(() => {
+    // calculating the time frame
+    switch (timeFrame) {
+      case "7d":
+        {
+          const dateRange = dayInfo(7);
+          console.log(dateRange);
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "day")
+          );
+        }
+        break;
+      case "14d":
+        {
+          const dateRange = dayInfo(14);
+
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "day")
+          );
+        }
+        break;
+      case "1mnth":
+        {
+          const dateRange = monthInfo(1);
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "day")
+          );
+        }
+        break;
+      case "3mnths":
+        {
+          const dateRange = monthInfo(3);
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "week")
+          );
+        }
+        break;
+      case "6mnths":
+        {
+          const dateRange = monthInfo(6);
+          console.log(dateRange);
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "week")
+          );
+        }
+        break;
+      case "1yr":
+        {
+          const dateRange = yearInfo(1);
+          dispatch(
+            getAdminSalesTimeFrameAction(dateRange[0], dateRange[1], "month")
+          );
+        }
+        break;
+
+      default:
+        break;
+    }
+  }, [timeFrame]);
   return (
     <Col xs={12} md={9}>
       <div className="border rounded-4 py-3 px-4 h-100 d-flex flex-column gap-4">
@@ -31,7 +135,13 @@ const SalesPerformance = () => {
               <option value="word">Word File</option>
               <option value="excel">Excel File</option>
             </Form.Select>
-            <Form.Select className="w-50 h-100 rounded-4">
+            <Form.Select
+              className="w-50 h-100 rounded-4"
+              name="timeFrame"
+              value={timeFrame}
+              onChange={(e) => setTimeFrame(e.target.value)}
+            >
+              <option value="7d">Last 7 Days</option>
               <option value="14d">Last 14 Days</option>
               <option value="1mnth">Last Month</option>
               <option value="3mnths">Last 3 Months</option>
@@ -44,12 +154,12 @@ const SalesPerformance = () => {
         {/* Line chart */}
         <LineChart height={400} width={1000} data={data} className="w-100">
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="_id" />
           <YAxis />
           <Tooltip />
-          <CartesianGrid stroke="#ffffffff" />
-          <Line type="monotone" dataKey="sales" stroke="#ff7300" />
-          <Line type="monotone" dataKey="profit" stroke="#387908" />
+          <CartesianGrid stroke="#ffffff" />
+          <Line type="monotone" dataKey="totalSales" stroke="#ff7300" />
+          <Line type="monotone" dataKey="totalRevenue" stroke="#387908" />
         </LineChart>
       </div>
     </Col>

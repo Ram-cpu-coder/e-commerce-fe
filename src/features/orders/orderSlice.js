@@ -2,8 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   orders: {},
-  timeFramePresentWeekOrders: [],
-  timeFramePastWeekOrders: [],
+  timeFramePresentWeekOrders: [], // just for one week
+  timeFramePastWeekOrders: [], // just for one week
+  sales: [{
+    totalSales: 0,
+    totalRevenue: 0,
+    _id: "",
+  },],
   shippingAddress: "",
   orderCustomerPage: 1,
   orderAdminPage: 1
@@ -30,10 +35,17 @@ const orderSlice = createSlice({
     setTimeFramePastWeekOrders: (state, { payload }) => {
       state.timeFramePastWeekOrders = payload || []
     },
+    setSales: (state, { payload }) => {
+      state.sales = payload || [{
+        totalSales: 0,
+        totalRevenue: 0,
+        date: ""
+      }]
+    }
   },
 });
 
 const { reducer, actions } = orderSlice;
 
-export const { setOrders, setShippingAddress, setOrderAdminPage, setOrderCustomerPage, setTimeFramePresentWeekOrders, setTimeFramePastWeekOrders } = actions;
+export const { setOrders, setShippingAddress, setOrderAdminPage, setOrderCustomerPage, setTimeFramePresentWeekOrders, setTimeFramePastWeekOrders, setSales } = actions;
 export default reducer;
