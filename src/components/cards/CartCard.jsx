@@ -9,10 +9,10 @@ import { removeItem } from "../../features/cart/cartSlice";
 
 const CartCard = ({ item }) => {
   const dispatch = useDispatch();
-  const { images, _id, name, quantity, costPrice, price } = item;
+  const { images, _id, name, quantity, totalAmount, price } = item;
 
   const [itemCartQuantiy, setItemCartQuantiy] = useState(quantity);
-  const [totalPrice, setTotalPrice] = useState(costPrice);
+  const [totalPrice, setTotalPrice] = useState(totalAmount);
 
   const handleDeleteItemFromCart = (_id) => {
     dispatch(deleteCartItemAction(_id));
@@ -41,8 +41,8 @@ const CartCard = ({ item }) => {
     setItemCartQuantiy(quantity);
   }, [quantity]);
   useEffect(() => {
-    setTotalPrice(costPrice);
-  }, [costPrice]);
+    setTotalPrice(totalAmount);
+  }, [totalAmount]);
   return (
     <div className="container-fluid px-3 bg-white">
       <div className="row align-items-start border rounded-3 shadow-sm py-3">
@@ -79,7 +79,7 @@ const CartCard = ({ item }) => {
                 $
               </span>
               <span style={{ fontSize: "clamp(1.75rem, 1.5vw, 1.25rem)" }}>
-                {totalPrice}
+                {Number(totalPrice || 0).toFixed(2)}
               </span>
             </div>
             <div
