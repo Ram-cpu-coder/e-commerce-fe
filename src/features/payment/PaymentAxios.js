@@ -8,13 +8,23 @@ export const makePaymentAxios = () => {
   });
 };
 
-export const verifyPaymentSession = (sessionId, orderObj) => {
+export const verifyPaymentSession = (orderObj) => {
   return apiProcessor({
     method: "post",
     url:
       import.meta.env.VITE_BACKEND_BASE_URL +
-      `/payment/verify-session?session_id=${sessionId}`,
+      `/payment/verify-session`,
     isPrivate: false,
     data: orderObj
+  });
+};
+
+export const handleStockApi = () => {
+  return apiProcessor({
+    method: "get",
+    url:
+      import.meta.env.VITE_BACKEND_BASE_URL +
+      `/payment`,
+    isPrivate: false
   });
 };

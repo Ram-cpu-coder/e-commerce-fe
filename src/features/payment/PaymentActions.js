@@ -1,27 +1,26 @@
 import { toast } from "react-toastify";
-import { makePaymentAxios, verifyPaymentSession } from "./PaymentAxios.js";
+import { handleStockApi, makePaymentAxios, verifyPaymentSession } from "./PaymentAxios.js";
 
-export const makePaymentAction = async () => {
+export const makePaymentAction = () => async (dispatch) => {
   const pending = makePaymentAxios();
   toast.promise(pending, {
-    pending: "Redirecting to payment page...",
+    pending: "Loading...",
   });
   const data = await pending;
+  toast[data.status](data.message);
   if (data.status === "success") {
     return data;
   }
-  toast[data.status](data.message);
 };
 
-export const verifyPaymentAction = async (sessionId, obj) => {
-  const pending = verifyPaymentSession(sessionId, obj);
+export const verifyPaymentAction = (obj) => async (dispatch) => {
+  const pending = verifyPaymentSession(obj);
   toast.promise(pending, {
     pending: "Verifying the payment ...",
   });
 
   try {
     const data = await pending;
-    console.log(data)
     if (data?.verified === true) {
       toast.success("Successfully placed the order!");
       return data;
@@ -35,3 +34,12 @@ export const verifyPaymentAction = async (sessionId, obj) => {
   }
 };
 
+export const handleStockAction = () => async (dispatch) => {
+  const { status, message } = await handleStockApi()
+  if (status === "success") {
+    return true
+  } else {
+    toast.error(message)
+    return false
+  }
+}
