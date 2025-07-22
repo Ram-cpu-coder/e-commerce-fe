@@ -14,7 +14,7 @@ export const verifyPaymentSession = (orderObj) => {
     url:
       import.meta.env.VITE_BACKEND_BASE_URL +
       `/payment/verify-session`,
-    isPrivate: false,
+    isPrivate: true,
     data: orderObj
   });
 };
@@ -25,6 +25,6 @@ export const handleStockApi = () => {
     url:
       import.meta.env.VITE_BACKEND_BASE_URL +
       `/payment`,
-    isPrivate: false
+    isPrivate: true
   });
 };
