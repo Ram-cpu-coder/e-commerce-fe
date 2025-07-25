@@ -20,6 +20,7 @@ const AccordionHeaderTopPart = ({ item, user }) => {
       return () => clearTimeout(timer);
     }
   }, [showText]);
+
   return (
     <div
       className="d-flex justify-content-between flex-wrap"
@@ -72,6 +73,9 @@ const AccordionHeaderTopPart = ({ item, user }) => {
           >
             <option value="pending" className="text-warning">
               Pending
+            </option>
+            <option value="confirmed" className="text-success">
+              Confirmed
             </option>
             <option value="shipped" className="text-primary">
               Shipped

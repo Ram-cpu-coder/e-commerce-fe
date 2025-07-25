@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit"
-import reducer from "../reviews/reviewSlice"
 
 const initialState = {
     recentActivity: []
@@ -15,6 +14,6 @@ const recentActivityslice = createSlice({
     }
 })
 
-const { actions, reducer } = recentActivityslice
+const { reducer, actions } = recentActivityslice
 export const { setRecentActivity } = actions
 export default reducer

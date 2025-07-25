@@ -7,7 +7,7 @@ const AccordionHeaderImageSection = ({ item, isOpen, toggleAccordion }) => {
         {item.products.map((product, index) => {
           return (
             <img
-              src={product.productImages}
+              src={product.images}
               alt=""
               srcSet=""
               className="border"

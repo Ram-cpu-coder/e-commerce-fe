@@ -32,6 +32,7 @@ const AdminOrdersCard = ({ orders, user }) => {
     setDisplayOrders(response);
   }, [form, orders]);
 
+  console.log(displayOrders, 999);
   return (
     <div className="w-100 d-flex flex-column gap-2">
       {/* controls bar */}
@@ -87,7 +88,7 @@ const AdminOrdersCard = ({ orders, user }) => {
                       {/* images of the items */}
                       <div className="d-flex flex-row gap-2" key={index}>
                         <img
-                          src={product.productImages}
+                          src={product.images}
                           alt=""
                           srcSet=""
                           className="border"

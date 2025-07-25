@@ -20,7 +20,7 @@ export const getAllRecentActivityAction = (page) => async (dispatch) => {
     try {
         const data = await getAllRecentActivity(page)
         if (data.status === "success") {
-            // dispatch(setRecentActivity(data.data))
+            dispatch(setRecentActivity(data.data))
             return data.data
         } else {
             toast.error(data.message)
@@ -34,7 +34,7 @@ export const getUserRecentActivityAction = (id, page) => async (dispatch) => {
     try {
         const data = await getUserRecentActivity(id, page)
         if (data.status === "success") {
-            // dispatch(setRecentActivity(data.data))
+            dispatch(setRecentActivity(data.data))
             return data.data
         } else {
             toast.error(data.message)

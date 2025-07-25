@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
 import { setOrders, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
+import { createRecentActivity } from "../recentActivity/recentActivityAPI";
 
 
 export const getOrderAction = () => async (dispatch, getState) => {
@@ -56,9 +57,20 @@ export const updateOrderAction = (updateObj) => async (dispatch) => {
     toast.promise(pending, {
         pending: "Updating..."
     })
-    const { status, message } = await pending;
+    const { status, message, orderUpdated, user } = await pending;
     if (status === "success") {
         dispatch(getAdminOrderAction());
+
+        const obj = {
+            userDetail: {
+                userId: user._id,
+                userName: user.fName + user.lName
+            },
+            action: "orderUpdated",
+            entityId: orderUpdated._id,
+            entityType: "order"
+        }
+        dispatch(createRecentActivity(obj))
     }
     toast[status](message);
 }
@@ -68,10 +80,23 @@ export const deleteOrderAction = (_id) => async (dispatch) => {
     toast.promise(pending, {
         pending: "Cancelling the Order ..."
     })
-    const { status, message } = await pending;
+    const { status, message, response, user } = await pending;
     if (status === "success") {
-        dispatch(getAdminOrderAction())
-        dispatch(getOrderAction())
+        user?.role === "admin" ?
+            dispatch(getAdminOrderAction()) :
+            dispatch(getOrderAction());
+
+        const obj = {
+            userDetail: {
+                userId: user._id,
+                userName: user.fName + user.lName
+            },
+            action: "orderCancelled",
+            entityId: response._id,
+            entityType: "order"
+        }
+        dispatch(createRecentActivity(obj))
+
     }
     toast[status](message);
 }
