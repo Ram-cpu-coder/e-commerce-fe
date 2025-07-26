@@ -1,6 +1,8 @@
 import { toast } from "react-toastify";
 import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
 import { setOrders, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
+import { createRecentActivity } from "../recentActivity/recentActivityAPI";
+import { createRecentActivityWithAuthenticationAction } from "../recentActivity/recentActivityAction";
 
 
 export const getOrderAction = () => async (dispatch, getState) => {
@@ -56,9 +58,16 @@ export const updateOrderAction = (updateObj) => async (dispatch) => {
     toast.promise(pending, {
         pending: "Updating..."
     })
-    const { status, message } = await pending;
+    const { status, message, orderUpdated } = await pending;
     if (status === "success") {
         dispatch(getAdminOrderAction());
+
+        const obj = {
+            action: "orderUpdated",
+            entityId: orderUpdated._id,
+            entityType: "order"
+        }
+        dispatch(createRecentActivityWithAuthenticationAction(obj))
     }
     toast[status](message);
 }
@@ -68,10 +77,19 @@ export const deleteOrderAction = (_id) => async (dispatch) => {
     toast.promise(pending, {
         pending: "Cancelling the Order ..."
     })
-    const { status, message } = await pending;
+    const { status, message, response, user } = await pending;
     if (status === "success") {
-        dispatch(getAdminOrderAction())
-        dispatch(getOrderAction())
+        user?.role === "admin" ?
+            dispatch(getAdminOrderAction()) :
+            dispatch(getOrderAction());
+
+        const obj = {
+            action: "orderCancelled",
+            entityId: response._id,
+            entityType: "order"
+        }
+        dispatch(createRecentActivityWithAuthenticationAction(obj))
+
     }
     toast[status](message);
 }

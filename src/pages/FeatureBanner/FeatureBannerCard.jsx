@@ -4,6 +4,7 @@ import { MdDelete } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 import { useDispatch } from "react-redux";
+import { GoDot } from "react-icons/go";
 
 const FeatureBannerCard = ({ item }) => {
   const {
@@ -14,6 +15,7 @@ const FeatureBannerCard = ({ item }) => {
     promoType,
     expiresAt,
     createdAt,
+    status,
   } = item;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,6 +48,30 @@ const FeatureBannerCard = ({ item }) => {
           <Card.Title className="mb-0 fs-6 fw-bold text-truncate" title={title}>
             {title || promoType}
           </Card.Title>
+          <div className="d-flex flex-column align-items-center">
+            <GoDot
+              className={
+                status === "active"
+                  ? "text-success bg-success rounded-circle"
+                  : "text-danger bg-danger rounded-circle"
+              }
+              title={status === "active" ? "Active" : "InActive"}
+              style={{ cursor: "pointer" }}
+            />
+          </div>
+        </div>
+
+        <div className="text-muted mb-2 small">
+          {products.length} product{products.length !== 1 ? "s" : ""}
+        </div>
+
+        <div className="mb-2 small">
+          <strong>Promo:</strong> {promoType}
+        </div>
+        <div className="mb-2 small text-muted d-flex align-items-center justify-content-between ">
+          <span>
+            <strong>Expires:</strong> {new Date(expiresAt).toLocaleDateString()}
+          </span>
           <div className="d-flex align-items-center gap-2 fs-5">
             <FaEdit
               className="text-secondary"
@@ -60,17 +86,6 @@ const FeatureBannerCard = ({ item }) => {
               onClick={() => dispatch(deleteFeatureBannerAction(_id))}
             />
           </div>
-        </div>
-
-        <div className="text-muted mb-2 small">
-          {products.length} product{products.length !== 1 ? "s" : ""}
-        </div>
-
-        <div className="mb-2 small">
-          <strong>Promo:</strong> {promoType}
-        </div>
-        <div className="mb-2 small text-muted">
-          <strong>Expires:</strong> {new Date(expiresAt).toLocaleDateString()}
         </div>
 
         <div className="d-flex gap-2">

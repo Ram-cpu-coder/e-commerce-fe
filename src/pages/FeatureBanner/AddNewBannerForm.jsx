@@ -36,7 +36,9 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
     e.preventDefault();
     const formData = new FormData();
 
-    formData.append("status", form.statuses);
+    if (form.statuses) {
+      formData.append("status", form.statuses);
+    }
     formData.append("promoType", form.promoType);
     formData.append("title", form.title);
     formData.append("createdAt", form.from);
@@ -100,13 +102,13 @@ const AddNewBannerForm = ({ form, handleOnChange, setIsCreatingBanner }) => {
                 onChange={handleOnChange}
                 required
               >
-                <option value="" disabled>
+                <option disabled defaultValue="new">
                   Select ...
                 </option>
-                <option value="new">New</option>
                 <option value="seasonal">Seasonal</option>
                 <option value="discounted">Discounted</option>
                 <option value="clearance">Clearance</option>
+                <option value="New">New</option>
               </Form.Select>
             </Form.Group>
           </div>

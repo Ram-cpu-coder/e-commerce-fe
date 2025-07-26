@@ -32,7 +32,7 @@ const EditCategory = lazy(() =>
 const AddCategory = lazy(() => import("../pages/admin/categories/AddCategory"));
 const PaymentResult = lazy(() => import("../pages/payment/PaymentResult.jsx"));
 const Order = lazy(() => import("../pages/order/Order.jsx"));
-const PaymentMethod = lazy(() => import("../pages/order/PaymentMethod.jsx"));
+const PaymentMethod = lazy(() => import("../pages/account/PaymentMethod.jsx"));
 const AdminOrders = lazy(() => import("../pages/order/AdminOrders.jsx"));
 const ShippingAddress = lazy(() => import("../components/ShippingAddress.jsx"));
 const AboutPage = lazy(() => import("../pages/AboutPage.jsx"));

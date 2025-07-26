@@ -16,6 +16,10 @@ import { deleteCartAction } from "../../features/cart/cartAction";
 import { createUserHistoryAction } from "../../features/userHistory/userHistoryAction";
 import Spinner from "react-bootstrap/Spinner";
 import { toast } from "react-toastify";
+import {
+  createRecentActivityAction,
+  createRecentActivityWithAuthenticationAction,
+} from "../../features/recentActivity/recentActivityAction";
 
 const CheckOutForm = () => {
   const dispatch = useDispatch();
@@ -30,6 +34,7 @@ const CheckOutForm = () => {
   const elements = useElements();
 
   console.log(cart, "cart");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
@@ -63,21 +68,28 @@ const CheckOutForm = () => {
         // I need to add the roll back fucntion for the stock
         return;
       }
-      const { order, verified } = await dispatch(
+      const response = await dispatch(
         verifyPaymentAction({
           shippingAddress:
-            shippingAddress !== undefined ? shippingAddress : user.address,
+            !shippingAddress === undefined ? shippingAddress : user.address,
           userId: user._id,
         })
       );
-      console.log("After Order Verification");
+
+      const { order, verified } = response;
       if (verified === true) {
-        console.log("Affter Payment Verifaication");
         await dispatch(
           updateOrderAction({
-            _id: order._id,
+            _id: order?._id,
             status: "confirmed",
             paymentIntent,
+          })
+        );
+        await dispatch(
+          createRecentActivityWithAuthenticationAction({
+            action: "orderPlaced",
+            entityId: order?._id,
+            entityType: "order",
           })
         );
         await dispatch(deleteCartAction());

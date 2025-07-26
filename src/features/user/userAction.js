@@ -14,6 +14,7 @@ import {
 } from "./userApi";
 import { toast } from "react-toastify";
 import { resetUser, setTimeFramePastWeekUsers, setTimeFramePresentWeekUsers, setUser } from "./userSlice.js";
+import { createRecentActivity } from "../recentActivity/recentActivityAPI.js";
 
 // login action
 export const loginAction = (form, navigate) => async (dispatch) => {
@@ -42,7 +43,20 @@ export const registerUserAction = (registerObj) => async (dispatch) => {
     pending: "Registering ... "
   });
   const { status, message, user } = await pending;
-  toast[status](message);
+  if (status === "success") {
+    const obj = {
+      userDetail: {
+        userId: user._id,
+        userName: user.fName + user.lName
+      },
+      action: "userRegistration",
+      entityId: user._id,
+      entityType: "user"
+    }
+    dispatch(createRecentActivity(obj))
+  } else {
+    toast.error(message)
+  }
 };
 
 //verify user Action
@@ -91,10 +105,20 @@ export const updatePwAction = ({ email, Otp, password, confirmPassword }) =>
       pending: "Updating Password!",
     });
 
-    const { status, message } = await pending;
+    const { status, message, updatedUser } = await pending;
     toast[status](message);
     console.log(status, "status");
     if (status === "success") {
+      const obj = {
+        userDetail: {
+          userId: updatedUser._id,
+          userName: updatedUser.fName + updatedUser.lName
+        },
+        action: "userUpdated",
+        entityId: updatedUser._id,
+        entityType: "user"
+      }
+      dispatch(createRecentActivity(obj))
       return true;
     }
   };
@@ -187,9 +211,20 @@ export const logoutAction = () => async (dispatch) => {
 }
 
 export const updateUserAction = (obj) => async (dispatch) => {
-  const { status, message } = await updateUserApi(obj);
+  const { status, message, updatedUser } = await updateUserApi(obj);
   if (status === "success") {
     dispatch(fetchUserAction())
+
+    const obj = {
+      userDetail: {
+        userId: updatedUser._id,
+        userName: updatedUser.fName + updatedUser.lName
+      },
+      action: "userUpdated",
+      entityId: updatedUser._id,
+      entityType: "user"
+    }
+    dispatch(createRecentActivity(obj))
   }
   toast[status](message)
 }

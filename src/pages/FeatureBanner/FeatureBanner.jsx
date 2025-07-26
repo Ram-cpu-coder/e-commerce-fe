@@ -17,7 +17,7 @@ import useFeatureBannerForm from "../../hooks/useFeatureBannerForm";
 const FeatureBanner = () => {
   const dispatch = useDispatch();
 
-  const { featureBanner } = useSelector((state) => state.featureBannerInfo);
+  const { featureBanner } = useSelector((state) => state?.featureBannerInfo);
 
   const { form, handleOnChange } = useForm({
     searchQuery: "",
@@ -26,18 +26,23 @@ const FeatureBanner = () => {
 
   const { setIsCreatingBanner, isCreatingBanner } = useFeatureBannerForm();
 
-  const [displayData, setDisplayData] = useState([]);
+  const [displayData, setDisplayData] = useState(featureBanner);
   const [isFiltering, setIsFiltering] = useState(false);
 
   useEffect(() => {
     dispatch(setMenu("Banners"));
+    dispatch(getAllCategoriesAction());
+    dispatch(getActiveProductAction());
+
+    const fetchingFeatureBanner = async () => {
+      await dispatch(fetchFeatureBannerAction());
+    };
+    fetchingFeatureBanner();
   }, []);
 
   useEffect(() => {
-    dispatch(fetchFeatureBannerAction());
-    dispatch(getAllCategoriesAction());
-    dispatch(getActiveProductAction());
-  }, []);
+    setDisplayData(featureBanner);
+  }, [featureBanner]);
 
   return (
     <UserLayout pageTitle="Banners">
