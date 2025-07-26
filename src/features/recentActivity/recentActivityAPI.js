@@ -6,6 +6,14 @@ export const createRecentActivity = (obj) => {
     return apiProcessor({
         method: "post",
         url: URL,
+        data: obj
+    })
+}
+
+export const createRecentActivityWithAuthentication = (obj) => {
+    return apiProcessor({
+        method: "post",
+        url: `${URL}/recentActivity`,
         data: obj,
         isPrivate: true
     })

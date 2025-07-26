@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
 import { setOrders, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
 import { createRecentActivity } from "../recentActivity/recentActivityAPI";
+import { createRecentActivityWithAuthenticationAction } from "../recentActivity/recentActivityAction";
 
 
 export const getOrderAction = () => async (dispatch, getState) => {
@@ -57,20 +58,16 @@ export const updateOrderAction = (updateObj) => async (dispatch) => {
     toast.promise(pending, {
         pending: "Updating..."
     })
-    const { status, message, orderUpdated, user } = await pending;
+    const { status, message, orderUpdated } = await pending;
     if (status === "success") {
         dispatch(getAdminOrderAction());
 
         const obj = {
-            userDetail: {
-                userId: user._id,
-                userName: user.fName + user.lName
-            },
             action: "orderUpdated",
             entityId: orderUpdated._id,
             entityType: "order"
         }
-        dispatch(createRecentActivity(obj))
+        dispatch(createRecentActivityWithAuthenticationAction(obj))
     }
     toast[status](message);
 }
@@ -87,15 +84,11 @@ export const deleteOrderAction = (_id) => async (dispatch) => {
             dispatch(getOrderAction());
 
         const obj = {
-            userDetail: {
-                userId: user._id,
-                userName: user.fName + user.lName
-            },
             action: "orderCancelled",
             entityId: response._id,
             entityType: "order"
         }
-        dispatch(createRecentActivity(obj))
+        dispatch(createRecentActivityWithAuthenticationAction(obj))
 
     }
     toast[status](message);

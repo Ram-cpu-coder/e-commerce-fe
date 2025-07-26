@@ -104,13 +104,16 @@ const AddProductsInBanner = ({
                 <td>
                   <Form.Check
                     type="checkbox"
+                    id={`check-${product._id}`}
                     checked={selectedProducts?.some(
                       (p) => p._id === product._id
                     )}
                     onChange={() => toggleProduct(product)}
                   />
                 </td>
-                <td>{product.name}</td>
+                <td>
+                  <label htmlFor={`check-${product._id}`}>{product.name}</label>
+                </td>
               </tr>
             ))}
           </tbody>

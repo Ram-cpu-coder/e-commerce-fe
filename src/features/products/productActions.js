@@ -16,6 +16,7 @@ import {
   setPublicProducts,
   setSelectedProduct,
 } from "./productSlice";
+import { createRecentActivityWithAuthenticationAction } from "../recentActivity/recentActivityAction";
 // with pagination
 export const getAdminProductAction = () => async (dispatch, getState) => {
   const page = getState().productInfo.productAdminPage
@@ -34,9 +35,16 @@ export const getAdminProductNoPaginationAction = () => async (dispatch, getState
 
 export const createProductAction = (productObj) => async (dispatch) => {
   const pending = createProductApi(productObj);
-  const { status, message } = await pending;
+  const { status, message, newProduct } = await pending;
   if (status === "success") {
     dispatch(getAdminProductAction());
+
+    const recentActivity = {
+      action: "productAdded",
+      entityId: newProduct._id,
+      entityType: "product"
+    }
+    dispatch(createRecentActivityWithAuthenticationAction(recentActivity))
   }
   toast[status](message);
   return true;
@@ -77,10 +85,17 @@ export const getSingleProductAction = (id) => async (dispatch) => {
 }
 
 export const deleteProductAction = (_id) => async (dispatch) => {
-  const { status, message } = await deleteProductApi(_id);
+  const { status, message, deletedProduct } = await deleteProductApi(_id);
   if (status === "success") {
     dispatch(getAdminProductAction());
     dispatch(getPublicProductAction());
+
+    const recentActivity = {
+      action: "productDeleted",
+      entityId: deletedProduct._id,
+      entityType: "product"
+    }
+    dispatch(createRecentActivityWithAuthenticationAction(recentActivity))
   }
   toast[status](message);
 };
@@ -88,10 +103,17 @@ export const deleteProductAction = (_id) => async (dispatch) => {
 export const updateProductAction = (id, updateObj) => async (dispatch) => {
   console.log(id)
   const pending = updateProductApi(id, updateObj);
-  const { status, message } = await pending;
+  const { status, message, updatedProduct } = await pending;
   if (status === "success") {
     dispatch(getAdminProductAction());
     dispatch(getPublicProductAction());
+
+    const recentActivity = {
+      action: "productUpdated",
+      entityId: updatedProduct._id,
+      entityType: "product"
+    }
+    dispatch(createRecentActivityWithAuthenticationAction(recentActivity))
   }
   toast[status](message);
   return "success";

@@ -16,7 +16,10 @@ import { deleteCartAction } from "../../features/cart/cartAction";
 import { createUserHistoryAction } from "../../features/userHistory/userHistoryAction";
 import Spinner from "react-bootstrap/Spinner";
 import { toast } from "react-toastify";
-import { createRecentActivityAction } from "../../features/recentActivity/recentActivityAction";
+import {
+  createRecentActivityAction,
+  createRecentActivityWithAuthenticationAction,
+} from "../../features/recentActivity/recentActivityAction";
 
 const CheckOutForm = () => {
   const dispatch = useDispatch();
@@ -31,6 +34,7 @@ const CheckOutForm = () => {
   const elements = useElements();
 
   console.log(cart, "cart");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessing(true);
@@ -82,11 +86,7 @@ const CheckOutForm = () => {
           })
         );
         await dispatch(
-          createRecentActivityAction({
-            userDetail: {
-              userId: user?._id,
-              userName: user?.fName + user?.lName,
-            },
+          createRecentActivityWithAuthenticationAction({
             action: "orderPlaced",
             entityId: order?._id,
             entityType: "order",

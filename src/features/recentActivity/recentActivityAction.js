@@ -1,16 +1,26 @@
-import { createRecentActivity, getAllRecentActivity, getUserRecentActivity } from "./recentActivityAPI"
+import { createRecentActivity, createRecentActivityWithAuthentication, getAllRecentActivity, getUserRecentActivity } from "./recentActivityAPI"
 import { setRecentActivity } from "./recentActivitySlice"
 
-export const createRecentActivityAction = (obj, user) => async (dispatch) => {
+export const createRecentActivityAction = (obj) => async (dispatch) => {
     try {
         const data = await createRecentActivity(obj)
         if (data.status === "success") {
-            if (user?.role === "admin") {
-                dispatch(getAllRecentActivityAction(1))
-            } else {
-                dispatch(getUserRecentActivityAction(1))
-            }
+            dispatch(getAllRecentActivityAction(1))
+            dispatch(getUserRecentActivityAction(1))
         }
+    } catch (error) {
+        console.log(error?.message, "From RecentActivity Action")
+    }
+}
+
+export const createRecentActivityWithAuthenticationAction = (obj) => async (dispatch) => {
+    try {
+        const data = await createRecentActivityWithAuthentication(obj)
+        if (data.status === "success") {
+            dispatch(getAllRecentActivityAction(1))
+            dispatch(getUserRecentActivityAction(1))
+        }
+
     } catch (error) {
         console.log(error?.message, "From RecentActivity Action")
     }
