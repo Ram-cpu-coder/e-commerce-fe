@@ -9,6 +9,7 @@ import { fetchUserAction } from "../features/user/userAction.js";
 import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
 import ViewProductsListed from "../pages/FeatureBanner/ViewProductsListed.jsx";
 import CarouselLandingPage from "../pages/home/CarouselLandingPage.jsx";
+import OrderLandingPage from "../components/ordersComponent/OrderLandingPage.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -88,6 +89,7 @@ const AppRoutes = () => {
         <Route path="shippingAddress" element={<ShippingAddress />} />
         <Route path="address/:id" element={<AddressUpdate />} />
         <Route path="wishlist" element={<WishList />} />
+        <Route path="orders/:id" element={<OrderLandingPage />} />
       </Route>
 
       <Route path="/admin" element={<DefaultLayout />}>

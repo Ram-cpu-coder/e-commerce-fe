@@ -59,6 +59,7 @@ export const updateOrderAction = (updateObj) => async (dispatch) => {
         pending: "Updating..."
     })
     const { status, message, orderUpdated } = await pending;
+    console.log(orderUpdated)
     if (status === "success") {
         dispatch(getAdminOrderAction());
 
@@ -68,8 +69,11 @@ export const updateOrderAction = (updateObj) => async (dispatch) => {
             entityType: "order"
         }
         dispatch(createRecentActivityWithAuthenticationAction(obj))
+        toast[status](message);
+        return true
     }
     toast[status](message);
+    return false
 }
 
 export const deleteOrderAction = (_id) => async (dispatch) => {

@@ -3,13 +3,13 @@ import { GoCopy } from "react-icons/go";
 import { useDispatch } from "react-redux";
 import { updateOrderAction } from "../../features/orders/orderActions";
 
-const AccordionHeaderTopPart = ({ item, user }) => {
+const TopPart = ({ item, user }) => {
   const dispatch = useDispatch();
   const [showText, setShowText] = useState(false);
   // order status
-  const handleOnStatus = (e, id) => {
+  const handleOnStatus = async (e, id) => {
     console.log(e.target.value);
-    dispatch(updateOrderAction({ _id: id, status: e.target.value }));
+    await dispatch(updateOrderAction({ _id: id, status: e.target.value }));
   };
   useEffect(() => {
     if (showText) {
@@ -45,15 +45,16 @@ const AccordionHeaderTopPart = ({ item, user }) => {
           title="Copy Order Id"
         />
         {showText && (
-          <p className="px-2 pb-0" style={{ height: "8px" }}>
-            Copied
-          </p>
+          <span className="text-success ms-2 small" style={{ fontWeight: 500 }}>
+            Copied!
+          </span>
         )}
       </div>
 
       {/* status of the order*/}
       <div style={{ height: "auto" }}>
-        <b>Placed At:</b> {item.createdAt.split("T")[0]} | &nbsp;
+        <b>Placed At:</b> {new Date(item.createdAt).toLocaleDateString()} |
+        &nbsp;
         {user.role === "admin" ? (
           <select
             className={
@@ -69,7 +70,7 @@ const AccordionHeaderTopPart = ({ item, user }) => {
               outline: "none",
             }}
             value={item.status}
-            onChange={(e) => handleOnStatus(e, item._id)}
+            onChange={(e) => handleOnStatus(e, item?._id)}
           >
             <option value="pending" className="text-warning">
               Pending
@@ -102,4 +103,4 @@ const AccordionHeaderTopPart = ({ item, user }) => {
   );
 };
 
-export default AccordionHeaderTopPart;
+export default TopPart;
