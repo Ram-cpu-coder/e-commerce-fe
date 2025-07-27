@@ -15,14 +15,16 @@ const CategoryList = ({ isModalView = false }) => {
 
   return (
     <div
-      className={`justify-content-center bg-light ${isModalView ? "p-3" : ""}`}
+      className={`justify-content-center bg-light py-5 ${
+        isModalView ? "p-3" : ""
+      }`}
     >
-      <h1 className="mt-2">Categories</h1>
+      <h1 className="mt-2 text-center">Categories</h1>
       <Col
         className={`fw-bold ${
           isModalView
-            ? "d-flex flex-wrap justify-content-center gap-4"
-            : "d-flex gap-3 justify-content-sm-start justify-content-md-center"
+            ? "d-flex flex-wrap justify-content-center gap-5"
+            : "d-flex gap-5 justify-content-sm-start justify-content-md-center"
         }`}
         style={
           isModalView
@@ -38,6 +40,7 @@ const CategoryList = ({ isModalView = false }) => {
             to={`/category/${category.categoryName}`}
             key={index}
             onClick={() => handleCategoryClick(category)}
+            className="text-decoration-none text-black g-2"
           >
             <div className="text-center category-item pt-3">
               <img

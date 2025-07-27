@@ -1,15 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-// Import Swiper React components
+import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/free-mode";
 import "swiper/css/thumbs";
-
-// import required modules
 import {
   Pagination,
   Navigation,
@@ -19,16 +14,20 @@ import {
 } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
+import { useNavigate } from "react-router-dom";
 
 export default function CarouselHomePage() {
-  const sampleCarouselImg = ["./1.jpg", "./2.jpeg", "./3.jpeg", "./4.jpeg"];
-
   const pagination = {
     clickable: true,
   };
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { featureBanner } = useSelector((state) => state.featureBannerInfo);
+
+  const handleBannerLandingPage = (id) => {
+    navigate(`featured/${id}`);
+  };
 
   useEffect(() => {
     const fetchBanners = async () => {
@@ -65,7 +64,8 @@ export default function CarouselHomePage() {
             <img
               src={item.featureBannerImgUrl}
               alt="Carousel"
-              style={{ backgroundSize: "contain" }}
+              style={{ backgroundSize: "contain", cursor: "pointer" }}
+              onClick={() => handleBannerLandingPage(item._id)}
             />
           </SwiperSlide>
         ))}

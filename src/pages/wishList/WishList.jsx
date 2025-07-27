@@ -35,14 +35,15 @@ const WishList = () => {
     };
     fetchWishList();
   }, []);
+
   return (
     <div
       className="d-flex flex-column align-items-center w-100"
-      style={{ minHeight: "55vh" }}
+      style={{ minHeight: "64vh" }}
     >
       <h3 className="mt-5">My WishList</h3>
       {wishlist?.length <= 0 ? (
-        <div className="d-flex align-items-center" style={{ height: "50vh" }}>
+        <div className="d-flex align-items-center" style={{ height: "60vh" }}>
           No items Added yet
         </div>
       ) : (
@@ -60,7 +61,7 @@ const WishList = () => {
             hover
             responsive
             className="col-sm-10 col-12"
-            style={{ minWidth: "60vw" }}
+            // style={{ minWidth: "60vw" }}
           >
             <thead className="text-start">
               <tr>

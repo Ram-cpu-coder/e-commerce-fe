@@ -15,8 +15,8 @@ const Shop = () => {
   );
 
   const dispatch = useDispatch();
-
   const { user } = useSelector((state) => state.userInfo);
+
   useEffect(() => {
     const fetchPubProducts = async () => {
       await dispatch(getPublicProductAction());
@@ -24,12 +24,12 @@ const Shop = () => {
     fetchPubProducts();
   }, [productCustomerPage]);
   return (
-    <div>
+    <div className="pb-5 w-100 d-flex justify-content-center flex-column align-items-center">
       {/* controls and actions like searching, sorting and filtering */}
       <HotPicks />
-      <div className="py-5 w-100 d-flex flex-column justify-content-center">
+      <div className="d-flex flex-column align-items-center col-10 mt-5">
         <h1>Explore More</h1>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 w-100">
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
           {publicProducts?.docs?.map((item, index) => {
             return (
               <div

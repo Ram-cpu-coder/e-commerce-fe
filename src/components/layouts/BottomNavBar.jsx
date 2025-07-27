@@ -54,7 +54,7 @@ const BottomNavBar = ({ handleCart, user }) => {
         {user?._id ? (
           <a href="/user/account" className="text-center nav-link">
             <RiAccountCircleFill size={20} />
-            <div>Account</div>
+            <div>{user?.role === "admin" ? "Dashboard" : "Account"}</div>
           </a>
         ) : (
           <a href="/login" className="text-center nav-link">

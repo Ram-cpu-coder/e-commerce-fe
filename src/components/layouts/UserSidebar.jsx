@@ -1,4 +1,3 @@
-import React from "react";
 import { Stack } from "react-bootstrap";
 import { FaBoxOpen, FaTags, FaCheck } from "react-icons/fa";
 import { MdRateReview } from "react-icons/md";
@@ -47,24 +46,18 @@ const sidebarLinks = [
     isAdminOnly: true,
   },
   {
-    icon: <CgProfile />,
-    title: "Login & Security",
-    to: "/user/account",
-    isUser: true,
-  },
-  {
     icon: <FaCheck />,
     title: "My Orders",
     to: "/user/orders?page=1",
     isAdminOnly: false,
   },
-
   {
-    icon: <FaCheck />,
-    title: "Payment Method",
-    to: "/user/payment-method",
+    icon: <CgProfile />,
+    title: "Login & Security",
+    to: "/user/account",
     isUser: true,
   },
+
   {
     icon: <PiSignOutFill />,
     title: "Logout",

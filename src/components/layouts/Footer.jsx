@@ -4,9 +4,9 @@ import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa6";
 
 const Footer = () => {
   return (
-    <footer className="mt-5 pt-5 pb-3">
-      <Container>
-        <Row className="gy-4">
+    <footer className="pt-2 pb-2">
+      <Container className="d-flex align-items-center flex-column">
+        <Row className="d-flex justify-content-between col-12">
           <Col md={3}>
             <h5 className="fw-bold">Brand Name</h5>
             <p className="text-muted">
@@ -101,11 +101,11 @@ const Footer = () => {
           </Col>
         </Row>
 
-        <hr className="my-4" />
+        <hr className="my-4 w-100" />
 
         <Row>
           <Col className="text-center text-muted">
-            © {new Date().getFullYear()} BrandName. All rights reserved.
+            © {new Date().getFullYear()} NepaStore. All rights reserved.
           </Col>
         </Row>
       </Container>

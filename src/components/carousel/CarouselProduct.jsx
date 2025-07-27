@@ -1,15 +1,12 @@
-import React from "react";
-// Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+// Dont get confused, this carousel is for the product landing page's images
 
-// Import Swiper styles
+import React from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/free-mode";
 import "swiper/css/thumbs";
-
-// import required modules
 import { Navigation, FreeMode, Thumbs } from "swiper/modules";
 
 export default function CarouselProduct({ selectedProduct, setSelectedImg }) {

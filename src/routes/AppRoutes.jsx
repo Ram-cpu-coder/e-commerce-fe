@@ -8,6 +8,7 @@ import { fetchUserAction } from "../features/user/userAction.js";
 
 import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
 import ViewProductsListed from "../pages/FeatureBanner/ViewProductsListed.jsx";
+import CarouselLandingPage from "../pages/home/CarouselLandingPage.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -74,6 +75,7 @@ const AppRoutes = () => {
         <Route path="/payment-result" element={<PaymentResult />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/featured/:id" element={<CarouselLandingPage />} />
       </Route>
       {/* private routes */}
       <Route path="/user" element={<DefaultLayout />}>

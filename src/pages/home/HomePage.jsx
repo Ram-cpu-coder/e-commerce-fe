@@ -50,7 +50,7 @@ const HomePage = () => {
 
   return (
     <div className="mx-2">
-      <div style={{ height: "40vh", background: "white" }}>
+      <div className="carouselDiv">
         <CarouselHomePage />
       </div>
       <CategoryList />
@@ -59,18 +59,18 @@ const HomePage = () => {
       ) : (
         ""
       )}
-      <div className="py-5 w-100">
+      <div className="py-5 w-100 d-flex justify-content-center">
         {loading ? (
           <Backdrop
             sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-            open={loading}
+            open={true}
           >
             <CircularProgress color="inherit" />
           </Backdrop>
         ) : (
-          <div className="d-flex flex-column align-content-start">
+          <div className="d-flex flex-column align-items-center col-10 mt-5">
             <h1>Explore More</h1>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 w-100">
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
               {publicProducts?.docs?.map((item, index) => {
                 return (
                   <div
