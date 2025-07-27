@@ -41,6 +41,17 @@ body,#root {
   margin: 0;
   padding: 0;
 }
+.logo{
+height: 65px; 
+width: 170px;
+
+}
+/* ------------------------------------------------------------------------- */
+.carouselDiv{
+  height: "70vh"; 
+  background: "white";
+  aspect-ratio: 16/5;
+}
 
 .swiper {
   width: 100%;
@@ -69,9 +80,25 @@ body,#root {
   margin-left: auto;
   margin-right: auto;
 }
+
+.swiper-button-prev, .swiper-button-next{
+  display: none;
+}
 /* ==================================================================== */
 /* carousel home page end  */
+/* ==================================================================== */
 
+
+.productImg{
+ max-height: 100%;
+ max-width: 100%;
+ aspect-ratio: 10/5;
+ object-fit: contain;
+ padding: 1.5rem;
+ transition: opacity 0.3s ease-in-out;
+/* filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5)); */
+}
+/* ==================================================================== */
 /* cart */
 .cart-animation-open {
   animation: slideIn 0.5s ease forwards;
@@ -296,10 +323,7 @@ width: 50px;
   /* ==================================================================== */
   /* product Card */
 .hoverCart:hover{
-color: white !important;
-background: black !important;
-}
-
-
-
+   color: white !important;
+   background: black !important;
+   }
   /* ==================================================================== */

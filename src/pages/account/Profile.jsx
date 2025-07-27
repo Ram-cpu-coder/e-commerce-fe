@@ -75,9 +75,9 @@ const Profile = () => {
       <div>
         <Container
           className="d-flex flex-column justify-content-center align-items-center"
-          style={{ height: "85vh" }}
+          style={{ height: "64vh" }}
         >
-          <h2 className="mb-4"> Welcome to Brand! </h2>
+          <h2 className="mb-4"> Welcome to NepaStore! </h2>
           <p className="mb-4 text-muted">
             Please login or register to continue.
           </p>

@@ -85,13 +85,7 @@ const ProductCard = ({ item }) => {
         <Card.Img
           variant="top"
           src={images[0]}
-          style={{
-            maxHeight: "100%",
-            maxWidth: "100%",
-            objectFit: "contain",
-            padding: "1.5rem",
-            transition: "opacity 0.3s ease-in-out",
-          }}
+          className="productImg"
           loading="lazy"
           onLoad={(e) => {
             e.target.style.opacity = 1;
@@ -116,7 +110,6 @@ const ProductCard = ({ item }) => {
             ) : (
               <span className="badge bg-secondary">New</span>
             )}
-
           </div>
         </div>
 

@@ -20,7 +20,7 @@ const Login = () => {
   return (
     <Container
       className="d-flex justify-content-center align-items-center bg-light"
-      style={{ minHeight: "90vh" }}
+      style={{ minHeight: "64vh" }}
     >
       <Card
         className="shadow rounded p-4 text-center"

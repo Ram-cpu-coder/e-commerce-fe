@@ -200,12 +200,13 @@ export const logoutAction = () => async (dispatch) => {
     if (status === "success") {
       localStorage.removeItem("refreshJWT");
       sessionStorage.removeItem("accessJWT")
-      dispatch(resetUser());
+      await dispatch(resetUser());
       toast[status](message)
       return true;
     }
   } catch (error) {
     console.log(error?.message, 5555)
+    return false
   }
 
 }

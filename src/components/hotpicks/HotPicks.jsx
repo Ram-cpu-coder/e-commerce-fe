@@ -33,10 +33,10 @@ const HotPicks = ({ handleOnClickProduct }) => {
     );
   }
   return (
-    <div>
-      <h1 className="mt-2 mb-0">Recommended For You</h1>
-      <div className="py-5 w-100 d-flex justify-content-center">
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 g-3 w-100">
+    <div className="w-100 d-flex justify-content-center mt-5">
+      <div className="d-flex flex-column align-items-center col-10">
+        <h1 className="mt-2 text-center">Recommended For You</h1>
+        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
           {hotPicks?.map((item, index) => (
             <div
               className="col"

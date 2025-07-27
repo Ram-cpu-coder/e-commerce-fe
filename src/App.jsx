@@ -13,15 +13,12 @@ import Backdrop from "@mui/material/Backdrop";
 const App = () => {
   const dispatch = useDispatch();
 
-  // const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchCritical = async () => {
       await Promise.all([
         dispatch(getAllCategoriesAction()),
         dispatch(autoLogin()),
       ]);
-      // setLoading(false);
 
       // Lazy load the rest
       dispatch(getAllPubReviewAction()), dispatch(fetchCartAction());
@@ -31,16 +28,6 @@ const App = () => {
     fetchCritical();
   }, []);
 
-  // if (loading) {
-  //   return (
-  //     <Backdrop
-  //       sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
-  //       open={loading}
-  //     >
-  //       <CircularProgress color="inherit" />
-  //     </Backdrop>
-  //   );
-  // }
   return (
     <div>
       <AppRoutes />

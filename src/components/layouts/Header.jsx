@@ -58,13 +58,21 @@ const Header = ({ handleCart, setNavHeight }) => {
           className=" fs-1 fw-bold order-0"
           style={{ cursor: "pointer" }}
         >
-          DEV STYLE
+          <picture>
+            <source srcset="/Logo.png" type="image/webp" className="logo" />
+            <source srcset="/Logo.png" type="image/jpeg" className="logo" />
+            <img src="/Logo.png" alt="Logo" className="logo" />
+          </picture>
         </Navbar.Brand>
         <div id="navbar-search-mobile" className="d-block d-md-none">
           <Nav className="ms-auto border">
-            <a href="/search" className="px-3 nav-link ">
-              SEARCH
-            </a>
+            {/*  changed to button as we are expecting the div for cart to be rendered above the current page, as we are not navigating to another separate page acc to the figma design */}
+            <button
+              className="px-3 text-start nav-link"
+              onClick={handleInternalChange}
+            >
+              CART
+            </button>
           </Nav>
         </div>
 
@@ -77,9 +85,13 @@ const Header = ({ handleCart, setNavHeight }) => {
         {/* Right-aligned links (Wishlist, Search, Cart) - Hidden on mobile */}
         <Navbar.Collapse id="navbar-right" className="order-3 order-lg-0">
           <Nav className="ms-auto">
-            <a href="/search" className="px-3 nav-link">
-              SEARCH
-            </a>
+            {/*  changed to button as we are expecting the div for cart to be rendered above the current page, as we are not navigating to another separate page acc to the figma design */}
+            <button
+              className="px-3 text-start nav-link"
+              onClick={handleInternalChange}
+            >
+              CART
+            </button>
 
             {user && user.role === "admin" ? (
               <a href="/admin/adminDashboard" className="px-3 nav-link">
@@ -91,13 +103,15 @@ const Header = ({ handleCart, setNavHeight }) => {
               </a>
             )}
 
-            {/*  changed to button as we are expecting the div for cart to be rendered above the current page, as we are not navigating to another separate page acc to the figma design */}
-            <button
-              className="px-3 text-start nav-link"
-              onClick={handleInternalChange}
-            >
-              CART
-            </button>
+            {user._id ? (
+              <Link to="/user/logout" className="px-3 nav-link">
+                LOG OUT
+              </Link>
+            ) : (
+              <Link to="/login" className="px-3 nav-link">
+                LOG IN
+              </Link>
+            )}
           </Nav>
         </Navbar.Collapse>
 
