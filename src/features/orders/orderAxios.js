@@ -6,7 +6,7 @@ export const updateOrder = (obj) => {
         method: "put",
         url: `${orderUrl}`,
         data: obj,
-        isPrivate: true,
+        isPrivate: true
     })
 }
 
@@ -23,6 +23,15 @@ export const getAllOrders = (page) => {
     return apiProcessor({
         method: "get",
         url: `${orderUrl}/admin?page=${page}`,
+        isPrivate: true,
+    })
+}
+
+// get all orders for the admin
+export const getAllOrdersNoPagination = () => {
+    return apiProcessor({
+        method: "get",
+        url: `${orderUrl}/all`,
         isPrivate: true,
     })
 }

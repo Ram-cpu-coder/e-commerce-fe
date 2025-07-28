@@ -8,8 +8,8 @@ import "swiper/css/thumbs";
 import {
   Pagination,
   Navigation,
-  FreeMode,
-  Thumbs,
+  // FreeMode,
+  // Thumbs,
   Autoplay,
 } from "swiper/modules";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,7 +41,7 @@ export default function CarouselHomePage() {
   return (
     <>
       <Swiper
-        key={featureBanner.length}
+        // key={featureBanner.length}
         slidesPerView={1}
         spaceBetween={1}
         centeredSlides={true}
@@ -52,7 +52,7 @@ export default function CarouselHomePage() {
         loop={true}
         pagination={pagination}
         navigation={true}
-        modules={[Pagination, Navigation, Thumbs, FreeMode, Autoplay]}
+        modules={[Pagination, Navigation, Autoplay]}
         className="mySwiper"
         style={{
           "--swiper-navigation-color": "#fff",
@@ -64,7 +64,12 @@ export default function CarouselHomePage() {
             <img
               src={item.featureBannerImgUrl}
               alt="Carousel"
-              style={{ backgroundSize: "contain", cursor: "pointer" }}
+              style={{
+                objectFit: "contain",
+                cursor: "pointer",
+                width: "100%",
+                height: "auto",
+              }}
               onClick={() => handleBannerLandingPage(item._id)}
             />
           </SwiperSlide>
