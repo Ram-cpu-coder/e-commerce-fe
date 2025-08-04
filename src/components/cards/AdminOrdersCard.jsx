@@ -2,14 +2,16 @@ import React, { useEffect, useState } from "react";
 import { Accordion } from "react-bootstrap";
 import useForm from "../../hooks/useForm";
 import { filterFunctionOrders } from "../../utils/filterProducts";
-import AccordionHeaderTopPart from "../ordersComponent/AccordionHeaderTopPart";
-import AccordionHeaderImageSection from "../ordersComponent/AccordionHeaderImageSection";
-import AccordionActions from "../ordersComponent/AccordionActions";
 import ActionsForItems from "../ordersComponent/ActionsForItems";
 import ItemPriceQuantity from "../ordersComponent/ItemPriceQuantity";
 import ControlBar from "../ordersComponent/ControlBar";
+import { useNavigate } from "react-router-dom";
+import TopPart from "../ordersComponent/TopPart";
+import ImageSection from "../ordersComponent/ImageSection";
+import Actions from "../ordersComponent/Actions";
 
 const AdminOrdersCard = ({ orders, user }) => {
+  const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState(null);
   const [displayOrders, setDisplayOrders] = useState([]);
   const [isReviewing, setIsReviewing] = useState(null);
@@ -32,7 +34,6 @@ const AdminOrdersCard = ({ orders, user }) => {
     setDisplayOrders(response);
   }, [form, orders]);
 
-  console.log(displayOrders, 999);
   return (
     <div className="w-100 d-flex flex-column gap-2">
       {/* controls bar */}
@@ -48,70 +49,96 @@ const AdminOrdersCard = ({ orders, user }) => {
         const key = item._id.toString();
         const isOpen = activeKey === key;
         return (
-          <Accordion
-            activeKey={activeKey}
-            key={key}
-            style={{ zIndex: 9 }}
-            className="position-relative"
-          >
-            <Accordion.Item eventKey={key} className="d-flex flex-column w-100">
-              <Accordion.Header
-                as="div"
+          <div className="position-relative" style={{ cursor: "pointer" }}>
+            <div className="d-flex flex-column w-100">
+              <div
                 className="justify-items-around align-items-center row w-100 orderAccordion"
                 style={{ minHeight: "12rem" }}
-                onClick={(e) => e.preventDefault()}
               >
-                <div className="d-flex flex-column gap-2 w-100">
+                <div className="d-flex flex-column gap-2 w-100 border p-2 rounded shadow ms-1">
                   <div className="d-flex flex-column gap-2 align-items-between w-100">
                     {/* status and the creation date  */}
-                    <AccordionHeaderTopPart item={item} user={user} />
+                    <TopPart item={item} user={user} />
 
                     {/* images in the accordion header*/}
-                    <AccordionHeaderImageSection
+                    <ImageSection
                       item={item}
                       isOpen={isOpen}
                       toggleAccordion={toggleAccordion}
                     />
-
                     {/* total amounts and action buttons*/}
-                    <AccordionActions item={item} user={user} />
+                    <Actions item={item} user={user} />
                   </div>
                 </div>
-              </Accordion.Header>
-              <Accordion.Body className="d-flex flex-column gap-2">
-                {item.products.map((product, index) => {
-                  return (
-                    <div
-                      className="d-flex align-items-center justify-content-between"
-                      key={index}
-                    >
-                      {/* images of the items */}
-                      <div className="d-flex flex-row gap-2" key={index}>
-                        <img
-                          src={product.images}
-                          alt=""
-                          srcSet=""
-                          className="border"
-                          style={{ height: "80px", width: "80px" }}
-                        />
-                        {/* product quantity and the unit price */}
-                        <ItemPriceQuantity product={product} />
-                      </div>
-                      {/* actions for the particular product within the order */}
-                      <ActionsForItems
-                        user={user}
-                        item={item}
-                        product={product}
-                        handleToggleReview={handleToggleReview}
-                        setIsReviewing={setIsReviewing}
-                        isReviewing={isReviewing}
-                      />
-                    </div>
-                  );
-                })}
-              </Accordion.Body>
-            </Accordion.Item>
-          </Accordion>
+              </div>
+            </div>
+          </div>
+
+          // <Accordion
+          //   activeKey={activeKey}
+          //   key={key}
+          //   style={{ zIndex: 9 }}
+          //   className="position-relative"
+          //   // onClick={() => navigate(`/user/orders/${item._id}`)}
+          // >
+          //   <Accordion.Item eventKey={key} className="d-flex flex-column w-100">
+          //     <Accordion.Header
+          //       as="div"
+          //       className="justify-items-around align-items-center row w-100 orderAccordion"
+          //       style={{ minHeight: "12rem" }}
+          //       onClick={(e) => e.preventDefault()}
+          //     >
+          //       <div className="d-flex flex-column gap-2 w-100">
+          //         <div className="d-flex flex-column gap-2 align-items-between w-100">
+          //           {/* status and the creation date  */}
+          //           <AccordionHeaderTopPart item={item} user={user} />
+
+          //           {/* images in the accordion header*/}
+          //           <AccordionHeaderImageSection
+          //             item={item}
+          //             isOpen={isOpen}
+          //             toggleAccordion={toggleAccordion}
+          //           />
+
+          //           {/* total amounts and action buttons*/}
+          //           <AccordionActions item={item} user={user} />
+          //         </div>
+          //       </div>
+          //     </Accordion.Header>
+          //     {/* <Accordion.Body className="d-flex flex-column gap-2">
+          //       {item.products.map((product, index) => {
+          //         return (
+          //           <div
+          //             className="d-flex align-items-center justify-content-between"
+          //             key={index}
+          //           >
+
+          //             <div className="d-flex flex-row gap-2" key={index}>
+          //               <img
+          //                 src={product.images}
+          //                 alt=""
+          //                 srcSet=""
+          //                 className="border"
+          //                 style={{ height: "80px", width: "80px" }}
+          //               />
+
+          //               <ItemPriceQuantity product={product} />
+          //             </div>
+
+          //             <ActionsForItems
+          //               user={user}
+          //               item={item}
+          //               product={product}
+          //               handleToggleReview={handleToggleReview}
+          //               setIsReviewing={setIsReviewing}
+          //               isReviewing={isReviewing}
+          //             />
+          //           </div>
+          //         );
+          //       })}
+          //     </Accordion.Body> */}
+          //   </Accordion.Item>
+          // </Accordion>
         );
       })}
     </div>

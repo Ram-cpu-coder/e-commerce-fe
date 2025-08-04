@@ -29,14 +29,16 @@ const AdminOrders = () => {
     <UserLayout pageTitle="Orders">
       <BreadCrumbsAdmin />
       <AdminOrdersCard orders={orders} user={user} />
-      <div className="mt-2 d-flex justify-content-center w-100">
-        <PaginationRounded
-          totalPages={orders.totalPages}
-          page={orderAdminPage}
-          mode="order"
-          client="admin"
-        />
-      </div>
+      {orders?.length > 10 && (
+        <div className="mt-2 d-flex justify-content-center w-100">
+          <PaginationRounded
+            totalPages={orders.totalPages}
+            page={orderAdminPage}
+            mode="order"
+            client="admin"
+          />
+        </div>
+      )}
     </UserLayout>
   );
 };

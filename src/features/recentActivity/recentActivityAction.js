@@ -1,3 +1,4 @@
+import { toast } from "react-toastify"
 import { createRecentActivity, createRecentActivityWithAuthentication, getAllRecentActivity, getUserRecentActivity } from "./recentActivityAPI"
 import { setRecentActivity } from "./recentActivitySlice"
 

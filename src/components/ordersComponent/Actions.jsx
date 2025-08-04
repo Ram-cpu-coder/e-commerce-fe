@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteOrderAction } from "../../features/orders/orderActions";
 import { generateInvoice } from "../../features/invoice/invoiceApi";
 
-const AccordionActions = ({ item, user }) => {
+const Actions = ({ item, user }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,15 +34,18 @@ const AccordionActions = ({ item, user }) => {
       <p className="d-flex flex-column w-75" style={{ height: "auto" }}>
         $ {item.totalAmount}
         {/* shipping address and its editing*/}
-        {/* {user.role === "admin" && ( */}
         <span className="mb-0 ">
           <b>Shipping to: </b>
           {item.shippingAddress} &nbsp;
-          <a href="" onClick={() => navigate(`/user/address/${item._id}`)}>
-            Change
-          </a>
+          {item.status === "pending" || item.status === "confirmed" ? (
+            <a href="" onClick={() => navigate(`/user/address/${item._id}`)}>
+              Change
+            </a>
+          ) : (
+            ""
+          )}
+          &nbsp; &nbsp;<a href={`/user/orders/${item._id}`}>Track Order</a>
         </span>
-        {/* )} */}
       </p>
       {/* buttons in accordion header */}
       <div className="d-flex gap-2 text-decoration-underline">
@@ -65,4 +68,4 @@ const AccordionActions = ({ item, user }) => {
   );
 };
 
-export default AccordionActions;
+export default Actions;
