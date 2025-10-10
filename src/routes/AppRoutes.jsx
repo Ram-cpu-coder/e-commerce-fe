@@ -10,6 +10,7 @@ import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
 import ViewProductsListed from "../pages/FeatureBanner/ViewProductsListed.jsx";
 import CarouselLandingPage from "../pages/home/CarouselLandingPage.jsx";
 import OrderLandingPage from "../components/ordersComponent/OrderLandingPage.jsx";
+// import OrderSummary from "../components/ordersComponent/OrderSummary.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -87,6 +88,7 @@ const AppRoutes = () => {
         <Route path="payment-method" element={<PaymentMethod />} />
         <Route path="logout" element={<Logout />} />
         <Route path="shippingAddress" element={<ShippingAddress />} />
+        {/* <Route path="order-summary" element={<OrderSummary />} /> */}
         <Route path="address/:id" element={<AddressUpdate />} />
         <Route path="wishlist" element={<WishList />} />
         <Route path="orders/:id" element={<OrderLandingPage />} />

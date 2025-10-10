@@ -46,7 +46,7 @@ const CheckOutForm = () => {
       const hasEnoughStock = await dispatch(handleStockAction());
 
       if (!hasEnoughStock) {
-        // toast.error("Not Enough Stock!");
+        toast.error("Not Enough Stock!");
         return;
       }
 

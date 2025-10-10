@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,29 +11,18 @@ import {
   // Thumbs,
   Autoplay,
 } from "swiper/modules";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 import { useNavigate } from "react-router-dom";
 
-export default function CarouselHomePage() {
+export default function CarouselHomePage({ featureBanner }) {
   const pagination = {
     clickable: true,
   };
 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { featureBanner } = useSelector((state) => state.featureBannerInfo);
 
   const handleBannerLandingPage = (id) => {
     navigate(`featured/${id}`);
   };
-
-  useEffect(() => {
-    const fetchBanners = async () => {
-      await dispatch(fetchFeatureBannerAction());
-    };
-    fetchBanners();
-  }, []);
 
   if (!featureBanner || featureBanner.length === 0) return null;
 
