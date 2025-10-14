@@ -21,7 +21,6 @@ export const verifyPaymentAction = (obj) => async (dispatch) => {
 
   try {
     const data = await pending;
-    console.log(data, "From aCtion")
     if (data?.verified === true) {
       toast.success("Successfully placed the order!");
       return data;

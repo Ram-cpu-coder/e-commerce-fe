@@ -11,7 +11,6 @@ import {
   verifyPaymentAction,
 } from "../../features/payment/PaymentActions";
 import { updateOrderAction } from "../../features/orders/orderActions";
-import { useNavigate } from "react-router-dom";
 import { deleteCartAction } from "../../features/cart/cartAction";
 import { createUserHistoryAction } from "../../features/userHistory/userHistoryAction";
 import Spinner from "react-bootstrap/Spinner";
@@ -21,9 +20,12 @@ import {
   createRecentActivityWithAuthenticationAction,
 } from "../../features/recentActivity/recentActivityAction";
 
-const CheckOutForm = () => {
+const CheckOutForm = ({
+  setConfirmation,
+  setActiveStep,
+  setAddressConfirmed,
+}) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const shippingAddress = localStorage.getItem("shippingAddressNew");
   const { user } = useSelector((state) => state.userInfo);
   const { cart } = useSelector((state) => state.cartInfo);
@@ -32,8 +34,6 @@ const CheckOutForm = () => {
 
   const stripe = useStripe();
   const elements = useElements();
-
-  console.log(cart, "cart");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -106,9 +106,13 @@ const CheckOutForm = () => {
             })
           )
         );
-        console.log("After Order update");
 
-        navigate("/");
+        // setting the confirmation of payment to true so that we can pop up the confirmation details
+        setAddressConfirmed(false);
+        setConfirmation(true);
+        setActiveStep(2);
+        // storing the order info in the local storage
+        localStorage.setItem("order", JSON.stringify(order));
       }
     } finally {
       setProcessing(false);
@@ -116,9 +120,6 @@ const CheckOutForm = () => {
   };
   return (
     <div style={{ minHeight: "80vh" }}>
-      {/* order Summary and the shipping address */}
-      {/* order summary */}
-      {/* shipping address */}
       <form onSubmit={handleSubmit}>
         <PaymentElement />
         <div className="d-flex justify-content-center mt-3">
@@ -127,7 +128,7 @@ const CheckOutForm = () => {
               <div className=" d-flex align-items-center gap-2">
                 <Spinner
                   className="border-1"
-                  style={{ width: "1.5rem", height: "1.5rem" }}
+                  style={{ width: "1rem", height: "1rem" }}
                 />
                 Processing
               </div>

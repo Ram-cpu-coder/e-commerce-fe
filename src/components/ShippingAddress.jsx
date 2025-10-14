@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { makePaymentAction } from "../features/payment/PaymentActions";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import useForm from "../hooks/useForm";
 import { Form } from "react-bootstrap";
@@ -8,11 +6,11 @@ import { Form } from "react-bootstrap";
 import { updateUserAction } from "../features/user/userAction";
 import ShippingAddressForm from "./shippingAddress/ShippingAddressForm";
 import { setShippingAddress } from "../features/orders/orderSlice";
-import { loadStripe } from "@stripe/stripe-js";
-import OrderFinalPage from "./ordersComponent/OrderFinalPage";
+import OrderPaymentPage from "./ordersComponent/OrderPaymentPage";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
+import OrderConfirmationPage from "./ordersComponent/OrderConfirmationPage";
 
 const ShippingAddress = () => {
   const dispatch = useDispatch();
@@ -21,9 +19,12 @@ const ShippingAddress = () => {
   const { user } = useSelector((state) => state.userInfo);
 
   const [addressConfirmed, setAddressConfirmed] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = ["Shipping Address", "Payment", "Confirmation"];
+
+  console.log("confirmation State: ", confirmation);
 
   // checkout
   const handleCheckoutAction = async (mode) => {
@@ -66,6 +67,7 @@ const ShippingAddress = () => {
           break;
         case 2:
           // show confirmation page
+          setConfirmation(true);
           break;
         default:
           break;
@@ -88,9 +90,9 @@ const ShippingAddress = () => {
         ))}
       </Stepper>
 
-      {!addressConfirmed && (
+      {!addressConfirmed && !confirmation && (
         <div className="row col-12 col-md-8 col-lg-7">
-          <h1 className="py-2">Shipping Address</h1>
+          <h5 className="py-2">Shipping Address</h5>
           <div className="d-flex align-items-start gap-4">
             <Form
               className="w-75 shadow p-3 rounded"
@@ -126,7 +128,16 @@ const ShippingAddress = () => {
       )}
 
       {/* Order Summary  */}
-      {addressConfirmed && <OrderFinalPage />}
+      {addressConfirmed && (
+        <OrderPaymentPage
+          setConfirmation={setConfirmation}
+          setActiveStep={setActiveStep}
+          setAddressConfirmed={setAddressConfirmed}
+        />
+      )}
+
+      {/* {confirmation page} */}
+      {confirmation && !addressConfirmed && <OrderConfirmationPage />}
     </div>
   );
 };
