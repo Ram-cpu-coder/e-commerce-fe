@@ -54,26 +54,26 @@ const ShippingAddress = () => {
   };
 
   // step controllling-- back and forth
-  const handleStepClick = (step) => {
-    if (step <= activeStep) {
-      setActiveStep(step);
+  // const handleStepClick = (step) => {
+  //   if (step <= activeStep) {
+  //     setActiveStep(step);
 
-      switch (step) {
-        case 0:
-          setAddressConfirmed(false); // show shipping form
-          break;
-        case 1:
-          setAddressConfirmed(true); // show payment (OrderFinalPage)
-          break;
-        case 2:
-          // show confirmation page
-          setConfirmation(true);
-          break;
-        default:
-          break;
-      }
-    }
-  };
+  //     switch (step) {
+  //       case 0:
+  //         setAddressConfirmed(false); // show shipping form
+  //         break;
+  //       case 1:
+  //         setAddressConfirmed(true); // show payment (OrderFinalPage)
+  //         break;
+  //       case 2:
+  //         // show confirmation page
+  //         setConfirmation(true);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // };
   return (
     <div className="container d-flex flex-column align-items-center my-5">
       {/* stepper to show the stages of the order placement */}
@@ -81,8 +81,8 @@ const ShippingAddress = () => {
         {steps.map((item, index) => (
           <Step key={item} completed={index < activeStep}>
             <StepLabel
-              style={{ cursor: index <= activeStep ? "pointer" : "default" }}
-              onClick={() => handleStepClick(index)}
+            // style={{ cursor: index <= activeStep ? "pointer" : "default" }}
+            // onClick={() => handleStepClick(index)}
             >
               {item}
             </StepLabel>

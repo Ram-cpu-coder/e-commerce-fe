@@ -40,7 +40,7 @@ const OrderFinalPage = ({
           <h5>Order Summary</h5>
 
           <div className="d-flex flex-column align-items-center bg-white py-3 position-relative vh-100">
-            <div>
+            <div className="col-12">
               {cart.map((item, index) => (
                 <OrderSummaryCard item={item} key={index} />
               ))}
