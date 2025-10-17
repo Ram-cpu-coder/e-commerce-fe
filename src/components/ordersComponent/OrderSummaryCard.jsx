@@ -45,60 +45,75 @@ const CartCard = ({ item }) => {
   }, [totalAmount]);
   return (
     <div className="container-fluid px-3 bg-white">
-      <div className="row align-items-start border rounded-3 shadow-sm py-3">
+      <div className="row align-items-start rounded-3 py-3 position-relative">
         {/* Image */}
-        <div className="col-4 col-sm-3 col-md-2">
+        <div
+          className="border rounded-3 p-2"
+          style={{ width: "150px", height: "100px" }}
+        >
           <img
             src={images?.[0]}
             alt="Product"
             className="img-fluid rounded"
-            style={{ objectFit: "cover", maxHeight: "100px", width: "150px" }}
+            style={{ objectFit: "cover", height: "100%", width: "100%" }}
           />
         </div>
 
         {/* Product Info */}
-        <div className="col-6 col-sm-7 col-md-8">
-          <p
-            className="mb-1"
-            style={{ fontSize: "clamp(1.55rem, 1.8vw, 1.15rem)" }}
-          >
+        {/* <div className="col-6 col-sm-7 col-md-8"> */}
+        <div className="flex-grow-1">
+          <p className="mb-1" style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}>
             {name}
           </p>
           <p
             className="mb-1 text-primary"
-            style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)" }}
+            style={{ fontSize: "clamp(0.75rem, 1.2vw, 1rem)" }}
           >
             Tag
           </p>
-          <div className="d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between">
+
+          <div className="d-flex flex-column flex-lg-row align-items-start align-items-lg-center justify-content-between">
+            {/* Price */}
             <div>
               <span
                 className="fw-bold me-1"
-                style={{ fontSize: "clamp(1.75rem, 1.5vw, 1.25rem)" }}
+                style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}
               >
                 $
               </span>
-              <span style={{ fontSize: "clamp(1.75rem, 1.5vw, 1.25rem)" }}>
+              <span style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)" }}>
                 {Number(totalPrice || 0).toFixed(2)}
               </span>
             </div>
+
+            {/* Quantity */}
             <div
-              className="d-flex align-items-center justify-content-center"
-              style={{
-                fontSize: "clamp(1.75rem, 1.5vw, 1.25rem)",
-              }}
+              className="d-flex align-items-center justify-content-center mt-2 mt-lg-0"
+              style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)" }}
             >
-              Quantity: &nbsp;
+              <span>Quantity:</span>
               <div className="d-flex align-items-center">
                 <button
                   className="border-0 bg-transparent"
+                  style={{
+                    fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
+                    width: "2rem",
+                    height: "2rem",
+                  }}
                   onClick={() => handleQuantityChange("subtract", _id)}
                 >
                   -
                 </button>
-                <span className="p-2">{itemCartQuantiy}</span>
+                <span style={{ fontSize: "clamp(0.9rem, 1.5vw, 1.1rem)" }}>
+                  {itemCartQuantiy}
+                </span>
                 <button
                   className="border-0 bg-transparent"
+                  style={{
+                    fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
+                    width: "2rem",
+                    height: "2rem",
+                  }}
                   onClick={() => handleQuantityChange("add", _id)}
                 >
                   +
@@ -109,7 +124,8 @@ const CartCard = ({ item }) => {
         </div>
 
         {/* Delete Icon */}
-        <div className="col-2 text-end">
+        {/* <div className="col-2 text-end"> */}
+        <div className="flex-shrink-0 ms-md-3 mt-3 mt-md-0 text-end position-absolute">
           <RiDeleteBin5Line
             size="1.5rem"
             className="text-danger"
@@ -119,6 +135,7 @@ const CartCard = ({ item }) => {
           />
         </div>
       </div>
+      <hr />
     </div>
   );
 };

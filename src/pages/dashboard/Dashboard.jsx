@@ -25,10 +25,6 @@ const Dashboard = () => {
     fetchData();
   });
 
-  // useEffect(() => {
-  //   dispatch();
-  // }, []);
-
   if (loading) {
     return (
       <div className="text-center" style={{ minHeight: "100vh" }}>

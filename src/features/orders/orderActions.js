@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
-import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
-import { setOrders, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
+import { deleteOrderApi, deleteOrderItemApi, getAdminSalesTimeFrameApi, getAllOrders, getAllOrdersNoPagination, getAllOrdersTimeFrame, getOrder, updateOrder } from "./orderAxios"
+import { setOrders, setOrdersNoPagination, setSales, setTimeFramePastWeekOrders, setTimeFramePresentWeekOrders } from "./orderSlice";
 import { createRecentActivity } from "../recentActivity/recentActivityAPI";
 import { createRecentActivityWithAuthenticationAction } from "../recentActivity/recentActivityAction";
 
@@ -19,6 +19,17 @@ export const getAdminOrderAction = () => async (dispatch, getState) => {
     const { status, message, orders } = await pending;
 
     await dispatch(setOrders(orders))
+    if (status === "success") {
+        return true
+    }
+}
+
+export const getAllOrderNoPaginationAction = () => async (dispatch, getState) => {
+
+    const pending = getAllOrdersNoPagination();
+    const { status, message, orders } = await pending;
+
+    await dispatch(setOrdersNoPagination(orders))
     if (status === "success") {
         return true
     }

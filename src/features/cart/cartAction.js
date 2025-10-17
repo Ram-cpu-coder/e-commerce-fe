@@ -16,6 +16,7 @@ export const createCartAction = (_id, quantity) => async (dispatch) => {
   const { response, status, message } = await pending;
   console.log(status, message);
   toast[status](message);
+  dispatch(fetchCartAction())
 };
 
 export const fetchCartAction = () => async (dispatch) => {

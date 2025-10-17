@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   orders: {},
+  ordersNoPagination: [],
   timeFramePresentWeekOrders: [], // just for one week
   timeFramePastWeekOrders: [], // just for one week
   sales: [{
@@ -26,6 +27,9 @@ const orderSlice = createSlice({
     setOrderAdminPage: (state, { payload }) => {
       state.orderAdminPage = payload
     },
+    setOrdersNoPagination: (state, { payload }) => {
+      state.ordersNoPagination = payload
+    },
     setOrderCustomerPage: (state, { payload }) => {
       state.orderCustomerPage = payload
     },
@@ -47,5 +51,5 @@ const orderSlice = createSlice({
 
 const { reducer, actions } = orderSlice;
 
-export const { setOrders, setShippingAddress, setOrderAdminPage, setOrderCustomerPage, setTimeFramePresentWeekOrders, setTimeFramePastWeekOrders, setSales } = actions;
+export const { setOrders, setShippingAddress, setOrderAdminPage, setOrderCustomerPage, setTimeFramePresentWeekOrders, setTimeFramePastWeekOrders, setSales, setOrdersNoPagination } = actions;
 export default reducer;

@@ -6,6 +6,7 @@ const PlaceOrder = ({ item }) => {
   const { products } = item;
   const [isReviewing, setIsReviewing] = useState(null);
 
+  console.log(products, 99);
   const handleToggleReview = (id) => {
     setIsReviewing((prevId) => (prevId === id ? null : id));
   };
@@ -31,7 +32,7 @@ const PlaceOrder = ({ item }) => {
           <tr key={product._id}>
             <td style={{ maxWidth: "50px" }}>
               <img
-                src={product.productImages[0]}
+                src={product.images[0]}
                 alt={product.name}
                 height={50}
                 width={50}
@@ -42,7 +43,7 @@ const PlaceOrder = ({ item }) => {
               <b>{product.name}</b>
             </td>
             <td style={{ width: "100px" }}>
-              $ {(product.price / 100) * product.quantity}
+              $ {product.price * product.quantity}
             </td>
             <td style={{ width: "100px" }}>{product.quantity}</td>
 

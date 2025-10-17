@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { makePaymentAction } from "../features/payment/PaymentActions";
-import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import useForm from "../hooks/useForm";
 import { Form } from "react-bootstrap";
@@ -8,9 +6,11 @@ import { Form } from "react-bootstrap";
 import { updateUserAction } from "../features/user/userAction";
 import ShippingAddressForm from "./shippingAddress/ShippingAddressForm";
 import { setShippingAddress } from "../features/orders/orderSlice";
-import CheckOutForm from "../pages/payment/CheckOutForm";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import OrderPaymentPage from "./ordersComponent/OrderPaymentPage";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import OrderConfirmationPage from "./ordersComponent/OrderConfirmationPage";
 
 const ShippingAddress = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,13 @@ const ShippingAddress = () => {
 
   const { user } = useSelector((state) => state.userInfo);
 
-  const [clientSecret, setClientSecret] = useState(null);
+  const [addressConfirmed, setAddressConfirmed] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  const steps = ["Shipping Address", "Payment", "Confirmation"];
+
+  console.log("confirmation State: ", confirmation);
 
   // checkout
   const handleCheckoutAction = async (mode) => {
@@ -38,55 +44,100 @@ const ShippingAddress = () => {
     }
 
     try {
-      const data = await dispatch(makePaymentAction());
-      setClientSecret(data?.paymentIntent?.client_secret);
+      setAddressConfirmed(true);
+      setActiveStep(1);
     } catch (error) {
-      toast.error("Something went wrong during checkout");
+      alert(
+        "Something has gone wrong while setting the address, Try Again Please!"
+      );
     }
   };
 
-  const stripePromise = loadStripe(
-    "pk_test_51RTBwfFT5aSpx6hL9yjuit9otXGJrq0FfRvDMOVihFGfXwQJv6Hc4hqhGv44091BO8fohBAay5grzEZNHgmMDWlx001lQaMhgU"
-  );
+  // step controllling-- back and forth
+  // const handleStepClick = (step) => {
+  //   if (step <= activeStep) {
+  //     setActiveStep(step);
 
+  //     switch (step) {
+  //       case 0:
+  //         setAddressConfirmed(false); // show shipping form
+  //         break;
+  //       case 1:
+  //         setAddressConfirmed(true); // show payment (OrderFinalPage)
+  //         break;
+  //       case 2:
+  //         // show confirmation page
+  //         setConfirmation(true);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  // };
   return (
-    <div className="d-flex w-100 justify-content-center my-5">
-      <div className="row col-9 col-md-6 col-lg-5">
-        {!clientSecret && <h1 className="py-2">Add Shipping Address</h1>}
-        {/* if user wants to go with existing address */}
-        {user.address && !clientSecret ? (
-          <>
-            <div className="d-flex justify-content-between align-items-center">
-              <p className="mb-0 border px-3 rounded">{user.address}</p>
-              <button
-                className="btn btn-link"
-                onClick={() => handleCheckoutAction("existing")}
-              >
-                Existing address
-              </button>
-            </div>
-            <b className="my-4">Or, New address</b>
-          </>
-        ) : (
-          ""
-        )}
-        {/*  */}
-        {!clientSecret && (
-          <Form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleCheckoutAction("update");
-            }}
-          >
-            <ShippingAddressForm form={form} handleOnChange={handleOnChange} />
-          </Form>
-        )}
-        {clientSecret && (
-          <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <CheckOutForm />
-          </Elements>
-        )}
-      </div>
+    <div className="container d-flex flex-column align-items-center my-5">
+      {/* stepper to show the stages of the order placement */}
+      <Stepper activeStep={activeStep} alternativeLabel className="col-10 my-5">
+        {steps.map((item, index) => (
+          <Step key={item} completed={index < activeStep}>
+            <StepLabel
+            // style={{ cursor: index <= activeStep ? "pointer" : "default" }}
+            // onClick={() => handleStepClick(index)}
+            >
+              {item}
+            </StepLabel>
+          </Step>
+        ))}
+      </Stepper>
+
+      {!addressConfirmed && !confirmation && (
+        <div className="row col-12 col-md-8 col-lg-7">
+          <h5 className="py-2">Shipping Address</h5>
+          <div className="d-flex align-items-start gap-4">
+            <Form
+              className="w-75 shadow p-3 rounded"
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleCheckoutAction("update");
+              }}
+            >
+              <ShippingAddressForm
+                form={form}
+                handleOnChange={handleOnChange}
+              />
+            </Form>
+
+            {/* if user wants to go with existing address */}
+            {user.address ? (
+              <>
+                <div className="d-flex flex-column justify-content-between align-items-center w-25">
+                  <p className="mb-0 border px-3 rounded">{user.address}</p>
+                  <button
+                    className="btn btn-link"
+                    onClick={() => handleCheckoutAction("existing")}
+                  >
+                    Existing address
+                  </button>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Order Summary  */}
+      {addressConfirmed && (
+        <OrderPaymentPage
+          setConfirmation={setConfirmation}
+          setActiveStep={setActiveStep}
+          setAddressConfirmed={setAddressConfirmed}
+        />
+      )}
+
+      {/* {confirmation page} */}
+      {confirmation && !addressConfirmed && <OrderConfirmationPage />}
     </div>
   );
 };

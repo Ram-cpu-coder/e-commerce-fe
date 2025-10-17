@@ -81,6 +81,13 @@ const TopPart = ({ item, user }) => {
             <option value="shipped" className="text-primary">
               Shipped
             </option>
+            <option value="inTransit" className="text-primary">
+              In Transit
+            </option>
+            <option value="outForDelivery" className="text-primary">
+              Out For Delivery
+            </option>
+
             <option value="delivered" className="text-success">
               Delivered
             </option>

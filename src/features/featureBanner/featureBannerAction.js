@@ -5,7 +5,6 @@ import { createRecentActivityWithAuthenticationAction } from "../recentActivity/
 
 export const createFeatureBannerAction = (obj) => async (dispatch) => {
     const pending = createFeatureBannerApi(obj);
-
     toast.promise(pending, {
         pending: "Processing..."
     })
@@ -15,6 +14,8 @@ export const createFeatureBannerAction = (obj) => async (dispatch) => {
     toast[status](message)
     if (status === "success") {
         dispatch(fetchFeatureBannerAction())
+
+        // recent activity in the admin dashboard
         const recentActivity = {
             action: "bannerCreated",
             entityId: newFeaturedBanner._id,

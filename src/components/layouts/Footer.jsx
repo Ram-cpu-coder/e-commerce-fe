@@ -1,4 +1,3 @@
-import React, { useEffect, useRef } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { FaFacebookF, FaInstagram, FaTiktok } from "react-icons/fa6";
 
@@ -7,10 +6,13 @@ const Footer = () => {
     <footer className="pt-2 pb-2">
       <Container className="d-flex align-items-center flex-column">
         <Row className="d-flex justify-content-between col-12">
-          <Col md={3}>
-            <h5 className="fw-bold">Brand Name</h5>
-            <p className="text-muted">
-              description for shopping experience here...
+          <Col md={3} className="mb-3">
+            <h5 className="fw-bold">NEPASTORE</h5>
+
+            <p className="text-muted" style={{ fontSize: "14px" }}>
+              Welcome to <strong>NEPASTORE</strong> — where style meets
+              sustainability. From a small dream to a global movement, we're
+              redefining fashion with a purpose.
             </p>
             <div className="d-flex gap-3 align-items-center">
               <a href="https://facebook.com" className="text-dark fs-5">
@@ -60,11 +62,6 @@ const Footer = () => {
               <li>
                 <a href="/about" className="text-decoration-none text-dark">
                   About Us
-                </a>
-              </li>
-              <li>
-                <a href="/careers" className="text-decoration-none text-dark">
-                  Careers
                 </a>
               </li>
             </ul>

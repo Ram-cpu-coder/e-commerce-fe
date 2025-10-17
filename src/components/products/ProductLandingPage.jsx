@@ -119,7 +119,7 @@ const ProductLandingPage = () => {
       className="w-100 d-flex justify-content-center py-2 position-relative bg-light-subtle"
       style={{ minHeight: "75dvh" }}
     >
-      <div className="d-flex align-items-center w-100 flex-column gap-4">
+      <div className="d-flex align-items-center w-100 flex-column gap-4 mb-5">
         <div className="d-flex flex-column flex-md-row justify-content-around align-items-start container col-11 col-lg-8 col-md-12 rounded-4 shadow bg-white py-3 px-2">
           <Suspense
             fallback={
@@ -143,7 +143,7 @@ const ProductLandingPage = () => {
         </div>
 
         {showReviews && (
-          <div className="d-flex flex-column flex-md-row justify-content-around col-11 col-lg-8 col-md-12 mt-3 rounded-4 shadow bg-white p-3">
+          <div className="d-flex flex-column flex-md-row justify-content-around align-items-start container col-11 col-lg-8 col-md-12 rounded-4 shadow bg-white py-3 px-2">
             <Suspense fallback={<div>Loading Reviews...</div>}>
               <ProductReviews selectedProduct={selectedProduct} />
             </Suspense>

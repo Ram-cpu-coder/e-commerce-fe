@@ -10,6 +10,7 @@ import FeatureBanner from "../pages/FeatureBanner/FeatureBanner.jsx";
 import ViewProductsListed from "../pages/FeatureBanner/ViewProductsListed.jsx";
 import CarouselLandingPage from "../pages/home/CarouselLandingPage.jsx";
 import OrderLandingPage from "../components/ordersComponent/OrderLandingPage.jsx";
+// import OrderSummary from "../components/ordersComponent/OrderSummary.jsx";
 
 const Register = lazy(() => import("../pages/auth/Register"));
 const ForgetPassword = lazy(() => import("../pages/auth/ForgetPassword"));
@@ -38,6 +39,7 @@ const PaymentMethod = lazy(() => import("../pages/account/PaymentMethod.jsx"));
 const AdminOrders = lazy(() => import("../pages/order/AdminOrders.jsx"));
 const ShippingAddress = lazy(() => import("../components/ShippingAddress.jsx"));
 const AboutPage = lazy(() => import("../pages/AboutPage.jsx"));
+const TermsPage = lazy(() => import("../pages/TermsPage.jsx"));
 const SearchPage = lazy(() => import("../pages/SearchPage.jsx"));
 const AddressUpdate = lazy(() =>
   import("../components/shippingAddress/AddressUpdate.jsx")
@@ -75,6 +77,7 @@ const AppRoutes = () => {
         <Route path="/:id" element={<ProductLandingPage />} />
         <Route path="/payment-result" element={<PaymentResult />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/featured/:id" element={<CarouselLandingPage />} />
       </Route>
@@ -87,6 +90,7 @@ const AppRoutes = () => {
         <Route path="payment-method" element={<PaymentMethod />} />
         <Route path="logout" element={<Logout />} />
         <Route path="shippingAddress" element={<ShippingAddress />} />
+        {/* <Route path="order-summary" element={<OrderSummary />} /> */}
         <Route path="address/:id" element={<AddressUpdate />} />
         <Route path="wishlist" element={<WishList />} />
         <Route path="orders/:id" element={<OrderLandingPage />} />

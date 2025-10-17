@@ -19,7 +19,9 @@ const CategoryList = ({ isModalView = false }) => {
         isModalView ? "p-3" : ""
       }`}
     >
-      <h1 className="mt-2 text-center">Categories</h1>
+      <h1 className="display-5 fw-bold text-dark text-center mb-3">
+        Categories
+      </h1>
       <Col
         className={`fw-bold ${
           isModalView
