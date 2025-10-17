@@ -80,7 +80,7 @@ const TopCategories = () => {
   }, []);
 
   return (
-    <Col xs={12} md={3}>
+    <Col xs={12} md={5}>
       <div className="border rounded-4 py-4 px-3 h-100 d-flex flex-column">
         <strong className="text-center mb-3 fs-5">Top Categories</strong>
 

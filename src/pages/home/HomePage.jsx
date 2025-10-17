@@ -82,7 +82,9 @@ const HomePage = () => {
           </Backdrop>
         ) : (
           <div className="d-flex flex-column align-items-center col-10 mt-5">
-            <h1>Explore More</h1>
+            <h1 className="display-5 fw-bold text-dark text-center mb-3">
+              Explore More
+            </h1>
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
               {publicProducts?.docs?.map((item, index) => {
                 return (
@@ -90,25 +92,17 @@ const HomePage = () => {
                     className="col"
                     style={{ cursor: "pointer" }}
                     key={index}
-                    onClick={async () => {
-                      // e.preventDefault();
-                      console.log("on the way");
-                      await dispatch(
-                        createUserHistoryAction({
-                          userId: user._id || null,
-                          productId: item._id,
-                          categoryId: item.category,
-                          action: "click",
-                        })
-                      );
+                    onClick={async (e) => {
+                      e.preventDefault();
                       handleOnClickProduct(item, user, dispatch);
-                      window.location.href = `/${item._id}`;
+                      // window.location.href = `/${item._id}`;
                     }}
                   >
                     <ProductCard item={item} />
                   </div>
                 );
               })}
+
               <div className="mt-2 d-flex justify-content-center w-100">
                 {publicProducts?.totalPages > 1 && (
                   <PaginationRounded

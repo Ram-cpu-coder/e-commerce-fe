@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Cart from "../../pages/Cart";
 import { useDispatch } from "react-redux";
 import { fetchCartAction } from "../../features/cart/cartAction";
@@ -12,6 +12,10 @@ const DefaultLayout = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [navHeight, setNavHeight] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
+
+  const location = useLocation();
+
+  const isDashboard = location.pathname.includes("/admin");
 
   const handleCart = () => {
     if (isCartOpen) {
@@ -66,7 +70,7 @@ const DefaultLayout = () => {
         )}
       </main>
 
-      <Footer />
+      {!isDashboard && <Footer />}
     </div>
   );
 };

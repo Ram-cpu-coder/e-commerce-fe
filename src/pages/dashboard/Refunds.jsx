@@ -1,4 +1,3 @@
-import React from "react";
 import { Col } from "react-bootstrap";
 import { HiMiniArrowTrendingUp } from "react-icons/hi2";
 import { IoBagHandleSharp } from "react-icons/io5";
@@ -19,7 +18,7 @@ const Refunds = () => {
           <MdOutlineKeyboardArrowRight className="fs-4" />
         </div>
         <p className="fs-2 my-3">-$1,154.00</p>
-        <div className="d-flex flex-row align-items-center">
+        <div className="d-flex flex-row align-items-center flex-wrap">
           <p className="me-auto">
             <HiMiniArrowTrendingUp /> <span>-3.1%</span>
           </p>

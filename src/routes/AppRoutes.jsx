@@ -39,6 +39,7 @@ const PaymentMethod = lazy(() => import("../pages/account/PaymentMethod.jsx"));
 const AdminOrders = lazy(() => import("../pages/order/AdminOrders.jsx"));
 const ShippingAddress = lazy(() => import("../components/ShippingAddress.jsx"));
 const AboutPage = lazy(() => import("../pages/AboutPage.jsx"));
+const TermsPage = lazy(() => import("../pages/TermsPage.jsx"));
 const SearchPage = lazy(() => import("../pages/SearchPage.jsx"));
 const AddressUpdate = lazy(() =>
   import("../components/shippingAddress/AddressUpdate.jsx")
@@ -76,6 +77,7 @@ const AppRoutes = () => {
         <Route path="/:id" element={<ProductLandingPage />} />
         <Route path="/payment-result" element={<PaymentResult />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/featured/:id" element={<CarouselLandingPage />} />
       </Route>

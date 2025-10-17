@@ -1,7 +1,6 @@
 import { apiProcessor } from "../../services/apiProcessor";
 
 const rootUrl = import.meta.env.VITE_BACKEND_ROOT_URL;
-console.log(rootUrl, 686);
 
 const authUrl = import.meta.env.VITE_BACKEND_BASE_URL + "/auth";
 

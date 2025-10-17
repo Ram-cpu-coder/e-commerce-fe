@@ -122,13 +122,16 @@ const SalesPerformance = () => {
     }
   }, [timeFrame]);
   return (
-    <Col xs={12} md={9}>
+    <Col xs={12} md={7}>
       <div className="border rounded-4 py-3 px-4 h-100 d-flex flex-column gap-4">
         {/* header part  */}
-        <div className="d-flex justify-content-between align-items-center">
-          <strong className="fs-5">Sales Performance</strong>
+        <div className="d-flex flex-column flex-md-row flex-wrap flex-md-nowrap justify-content-between align-items-start align-items-md-center mb-3">
+          <strong className="fs-5 mb-2 mb-md-0">Sales Performance</strong>
 
-          <div className="d-flex gap-3" style={{ width: "50%" }}>
+          <div
+            className="d-flex gap-2 gap-md-3 w-100 w-md-50"
+            style={{ width: "50%" }}
+          >
             <Form.Select className="w-50 h-100 rounded-4">
               <option>Export Data</option>
               <option value="pdf">Pdf File</option>

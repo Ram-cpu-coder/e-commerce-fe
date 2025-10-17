@@ -35,7 +35,9 @@ const HotPicks = ({ handleOnClickProduct }) => {
   return (
     <div className="w-100 d-flex justify-content-center mt-5">
       <div className="d-flex flex-column align-items-center col-10">
-        <h1 className="mt-2 text-center">Recommended For You</h1>
+        <h1 className="display-5 fw-bold text-dark text-center mb-3">
+          Recommended For You
+        </h1>
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
           {hotPicks?.map((item, index) => (
             <div
