@@ -9,8 +9,6 @@ const Header = ({ handleCart, setNavHeight }) => {
   const { user } = useSelector((state) => state.userInfo);
   const { cart } = useSelector((state) => state.cartInfo);
 
-  console.log(cart, 99);
-
   const [expanded, setExpanded] = useState(false);
 
   const navRef = useRef(0);
