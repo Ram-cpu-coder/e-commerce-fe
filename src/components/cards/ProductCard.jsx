@@ -23,6 +23,10 @@ const ProductCard = ({ item }) => {
   const selectedCategory = Categories.find((cat) => cat._id === category);
 
   useEffect(() => {
+    if (!allPubReviews || !reviews) {
+      setItemReviews([]);
+      return;
+    }
     const selectedReviews = allPubReviews?.filter((rev) =>
       reviews.includes(rev._id)
     );
