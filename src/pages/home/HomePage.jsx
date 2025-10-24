@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import CategoryList from "../../components/layouts/CategoryList";
 import ProductCard from "../../components/cards/ProductCard";
 import CarouselHomePage from "../../components/carousel/CarouselHomePage";
-import { useDispatch, useSelector } from "react-redux";
 import PaginationRounded from "../../components/pagination/PaginationRounded";
-import { getPublicProductAction } from "../../features/products/productActions";
-import { handleOnClickProduct } from "../../utils/productFunctions";
 import HotPicks from "../../components/hotpicks/HotPicks";
 import CircularProgress from "@mui/material/CircularProgress";
 import Backdrop from "@mui/material/Backdrop";
-import {
-  createUserHistoryAction,
-  getRecommendationsAction,
-} from "../../features/userHistory/userHistoryAction";
+import { getPublicProductAction } from "../../features/products/productActions";
+import { handleOnClickProduct } from "../../utils/productFunctions";
+import { getRecommendationsAction } from "../../features/userHistory/userHistoryAction";
 import { fetchFeatureBannerAction } from "../../features/featureBanner/featureBannerAction";
 
 const HomePage = () => {
   const dispatch = useDispatch();
+
   const { publicProducts, productCustomerPage } = useSelector(
     (state) => state.productInfo
   );
@@ -26,52 +24,54 @@ const HomePage = () => {
 
   const [loading, setLoading] = useState(true);
 
-  const fetchBanners = async () => {
-    await dispatch(fetchFeatureBannerAction());
-  };
-
-  const fetchPubProducts = async () => {
-    await dispatch(getPublicProductAction());
-  };
-
+  //  Fetch banners and products in parallel on first load
   useEffect(() => {
-    fetchPubProducts();
-    fetchBanners();
+    const fetchInitialData = async () => {
+      setLoading(true);
+      await Promise.all([
+        dispatch(fetchFeatureBannerAction()),
+        dispatch(getPublicProductAction()),
+      ]);
+      setLoading(false);
+    };
+    fetchInitialData();
+  }, [dispatch]);
+
+  //  Re-fetch products when pagination changes (no need to re-fetch banners)
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      await dispatch(getPublicProductAction());
+      setLoading(false);
+    };
+    if (productCustomerPage > 1) fetchProducts();
   }, [dispatch, productCustomerPage]);
 
+  //  Fetch recommendations only once per user
   useEffect(() => {
-    const isDataLoaded = publicProducts?.docs?.length > 0;
-    if (isDataLoaded) {
-      setLoading(false);
+    if (user?._id && !hotPicks.length) {
+      dispatch(getRecommendationsAction(user._id));
     }
-  }, [publicProducts]);
+  }, [dispatch, user, hotPicks.length]);
 
-  useEffect(() => {
-    const fetchHotPicks = async () => {
-      await dispatch(getRecommendationsAction(user._id));
-    };
-    if (!hotPicks.length) {
-      fetchHotPicks();
-    }
-    setLoading(false);
-  }, []);
-
+  // === RENDER ===
   return (
     <div className="mx-2">
-      {featureBanner.length === 0 ? (
-        ""
-      ) : (
+      {/* Banner */}
+      {featureBanner.length > 0 && (
         <div className="carouselDiv">
           <CarouselHomePage featureBanner={featureBanner} />
         </div>
       )}
 
       <CategoryList />
-      {hotPicks.length ? (
+
+      {/* Hot Picks */}
+      {hotPicks.length > 0 && (
         <HotPicks handleOnClickProduct={handleOnClickProduct} />
-      ) : (
-        ""
       )}
+
+      {/* Products Section */}
       <div className="py-5 w-100 d-flex justify-content-center">
         {loading ? (
           <Backdrop
@@ -85,23 +85,21 @@ const HomePage = () => {
             <h1 className="display-5 fw-bold text-dark text-center mb-3">
               Explore More
             </h1>
+
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3 w-100">
-              {publicProducts?.docs?.map((item, index) => {
-                return (
-                  <div
-                    className="col"
-                    style={{ cursor: "pointer" }}
-                    key={index}
-                    onClick={async (e) => {
-                      e.preventDefault();
-                      handleOnClickProduct(item, user, dispatch);
-                      // window.location.href = `/${item._id}`;
-                    }}
-                  >
-                    <ProductCard item={item} />
-                  </div>
-                );
-              })}
+              {publicProducts?.docs?.map((item, index) => (
+                <div
+                  className="col"
+                  style={{ cursor: "pointer" }}
+                  key={item._id || index}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleOnClickProduct(item, user, dispatch);
+                  }}
+                >
+                  <ProductCard item={item} />
+                </div>
+              ))}
 
               <div className="mt-2 d-flex justify-content-center w-100">
                 {publicProducts?.totalPages > 1 && (
