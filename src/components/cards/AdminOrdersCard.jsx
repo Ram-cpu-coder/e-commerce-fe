@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Accordion } from "react-bootstrap";
 import useForm from "../../hooks/useForm";
 import { filterFunctionOrders } from "../../utils/filterProducts";
-import ActionsForItems from "../ordersComponent/ActionsForItems";
-import ItemPriceQuantity from "../ordersComponent/ItemPriceQuantity";
 import ControlBar from "../ordersComponent/ControlBar";
 import { useNavigate } from "react-router-dom";
 import TopPart from "../ordersComponent/TopPart";
@@ -11,7 +8,6 @@ import ImageSection from "../ordersComponent/ImageSection";
 import Actions from "../ordersComponent/Actions";
 
 const AdminOrdersCard = ({ orders, user }) => {
-  const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState(null);
   const [displayOrders, setDisplayOrders] = useState([]);
   const [isReviewing, setIsReviewing] = useState(null);
