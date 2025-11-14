@@ -20,7 +20,6 @@ const ProductsDetails = ({
   const selectedCategory = Categories.find(
     (cat) => cat._id === selectedProduct.category
   );
-
   const [quantity, setQuantity] = useState(1);
 
   const handleOnAdd = () => {

@@ -2,7 +2,7 @@ const ImageSection = ({ item, isOpen, toggleAccordion }) => {
   return (
     <div className="d-flex justify-content-between align-items-center">
       <div className="d-flex gap-2 flex-wrap">
-        {item.products.map((product, index) => {
+        {item?.products?.map((product, index) => {
           return (
             <img
               src={product.images}

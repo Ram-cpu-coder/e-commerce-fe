@@ -9,10 +9,10 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 const ProductReviews = ({ selectedProduct }) => {
   const dispatch = useDispatch();
-
   const { reviewCustomerPage, selectedReview } = useSelector(
     (state) => state.reviewInfo
   );
+
   useEffect(() => {
     const fetchReviews = async () => {
       await dispatch(getPubReviewAction(selectedProduct._id));
@@ -34,12 +34,12 @@ const ProductReviews = ({ selectedProduct }) => {
     <div className="container mt-4">
       <h1 className="text-start w-100">Latest Reviews</h1>
 
-      {!selectedReview?.docs?.length ? (
+      {!selectedReview?.reviews?.length ? (
         <div className="text-center">No Reviews yet</div>
       ) : (
         <>
           <Row className="g-4">
-            {selectedReview?.docs?.map((item, index) => (
+            {selectedReview?.reviews?.map((item, index) => (
               <Col key={index} xs={12} sm={12} md={6} lg={6} xl={4}>
                 <ProductReviewCard item={item} />
               </Col>

@@ -24,7 +24,6 @@ const AdminOrders = () => {
     };
     fetchOrders();
   }, [dispatch, orderAdminPage]);
-
   return (
     <UserLayout pageTitle="Orders">
       <BreadCrumbsAdmin />

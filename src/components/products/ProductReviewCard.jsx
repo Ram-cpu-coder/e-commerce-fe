@@ -2,6 +2,8 @@ import React from "react";
 import Stars from "../rating/Stars";
 
 const ProductReviewCard = ({ item }) => {
+  console.log(item, 99);
+  console.log("hello");
   const {
     comment,
     createdAt,

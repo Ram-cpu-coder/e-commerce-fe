@@ -22,7 +22,7 @@ const OrderLandingPage = () => {
 
   const { ordersNoPagination } = useSelector((state) => state.orderInfo);
   const selectedOrder = ordersNoPagination?.find((item) => item._id === id);
-
+  console.log(selectedOrder, 9999);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -160,6 +160,34 @@ const OrderLandingPage = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 ">
+                  {selectedOrder?.status === "pending" && (
+                    <tr>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div></div>
+                          <span>
+                            {selectedOrder?.status.charAt(0).toUpperCase() +
+                              selectedOrder?.status.slice(1)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {status.date ? (
+                          <>
+                            <i>{status.date.split("T")[0]}</i> at{" "}
+                            <i>{status.date.split("T")[1].split(".")[0]}</i>
+                          </>
+                        ) : (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-500">
+                        {status.description || (
+                          <span className="text-gray-400">-</span>
+                        )}
+                      </td>
+                    </tr>
+                  )}
                   {selectedOrder.status_history.map((status, index) => (
                     <tr key={index}>
                       <td className="px-6 py-4 whitespace-nowrap">
